@@ -1,18 +1,56 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h2 class="title">どんなスキルをImportしますか？</h2>
+    <input 
+      type="text"
+      placeholder="Search Tutorials"
+      class="search"
+    >
+    <section class="list flex">
+      <Item 
+        v-for="item in items"
+        :key="item.id"
+        :data="item"
+      />
+    </section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
-
+import { db } from "@/main" 
+import Item from "@/components/Item"
 export default {
   name: 'home',
   components: {
-    HelloWorld,
+    Item
   },
+  data () {
+    return {
+      items: []
+    }
+  },
+  firestore () {
+    return {
+      items: db.collection("items").orderBy("createdAt","desc")
+    }
+  }
 };
 </script>
+
+<style lang="stylus" scoped>
+.title
+  text-align center
+  font-size 1.5rem
+.search
+  display block
+  box-shadow 0 0 5px #eee
+  border none
+  padding 0 2%
+  width 46%
+  margin 20px auto
+  border-radius 20px
+  height 40px
+  line-height 40px
+  font-size 1rem
+</style>
+
