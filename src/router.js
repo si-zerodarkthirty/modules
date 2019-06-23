@@ -1,13 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home';
-import Editor from './views/Editor';
-import Skill from './views/Skill';
+import Create from './views/Create';
+import Module from './views/Module';
 import User from './views/User';
+import Update from './views/Update';
 
 Vue.use(Router);
 
 export default new Router({
+  scrollBehavior() {
+    return { x: 0, y: 0 };
+  },
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -17,19 +21,24 @@ export default new Router({
       component: Home,
     },
     {
-      path: '/editor',
-      name: 'editor',
-      component: Editor,
+      path: '/create',
+      name: 'create',
+      component: Create,
     },
     {
-      path: '/skill/:id',
-      name: 'skill',
-      component: Skill,
+      path: '/update/:id',
+      name: 'update',
+      component: Update,
+    },
+    {
+      path: '/module/:uid/:id',
+      name: 'module',
+      component: Module,
     },
     {
       path: '/user/:uid',
       name: 'user',
       component: User,
-    },
-  ],
+    }
+  ]
 });

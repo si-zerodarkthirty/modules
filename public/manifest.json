@@ -1,6 +1,6 @@
 {
-  "name": "skillhunt",
-  "short_name": "skillhunt",
+  "name": "modules",
+  "short_name": "modules",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",
