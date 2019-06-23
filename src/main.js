@@ -13,7 +13,10 @@ import {
   faCopy,
   faHeart,
   faYenSign,
-  faLayerGroup,
+  faClock,
+  faArrowUp,
+  faArrowDown,
+  faLink
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTwitter,
@@ -48,7 +51,10 @@ library.add(
   faTwitter,
   faHeart,
   faYenSign,
-  faLayerGroup,
+  faClock,
+  faArrowUp,
+  faArrowDown,
+  faLink
 );
 Vue.component('fa', FontAwesomeIcon);
 Vue.use(firestorePlugin);

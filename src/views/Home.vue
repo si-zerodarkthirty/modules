@@ -25,20 +25,29 @@
         <button
           :class="{active: order == 'likes.length'}"
           @click="order = 'likes.length'"
-        >likes</button>
+        ><fa icon="heart" /></button>
         <button
           :class="{active: order == 'price'}"
           @click="order = 'price'"
-        >price</button>
+        ><fa icon="yen-sign" /></button>
         <button
           :class="{active: order == 'createdAt'}"
           @click="order = 'createdAt'"
-        >date</button>
+        ><fa icon="clock" /></button>
+        <button
+          v-if="dir == -1"
+          class="active"
+          @click="dir = 0"
+        ><fa icon="arrow-up" /></button>
+        <button
+          v-else
+          @click="dir = -1"
+        ><fa icon="arrow-down" /></button>
       </div>
     </div>
     <section class="list flex">
       <Item
-        v-for="item in orderBy(filterBy(filterByPrice(items,maxPrice),query,'content'),order,-1)"
+        v-for="item in orderBy(filterBy(filterByPrice(items,maxPrice),query,'content'),order,dir)"
         :key="item.id"
         :data="item"
       />
@@ -62,6 +71,7 @@ export default {
       query: '',
       maxPrice: 500,
       order: 'likes.length',
+      dir: -1
     };
   },
   firestore() {
@@ -141,7 +151,7 @@ export default {
     width 60px
     text-align center
     height 28px
-    line-height 25px
+    line-height 26px
     margin -3px 2px 0
     border-radius 15px
   .active

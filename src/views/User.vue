@@ -158,7 +158,8 @@ nav
   margin 20px 0
   width fit-content
   button
-    padding 10px
+    padding 10px 0
+    width 70px
     border-bottom 3px solid #eee
   .active
     border-bottom 3px solid #2c3e50

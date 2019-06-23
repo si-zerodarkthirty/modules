@@ -1,13 +1,6 @@
 <template>
   <div class="module">
     <div class="tools">
-      <a :href="'https://twitter.com/intent/tweet?text=「'+skill.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+skill.user+'/'+skill.id" target="_blank">
-        <button class="tool tweet">
-          <fa
-            :icon="['fab', 'twitter']"
-          />
-        </button>
-      </a>
       <button
         class="tool"
         @click="toggleLike"
@@ -17,6 +10,23 @@
           icon="heart"
         />
         <span>{{ skill.likes.length }}</span>
+      </button>
+      <a :href="'https://twitter.com/intent/tweet?text=「'+skill.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+skill.user+'/'+skill.id" target="_blank">
+        <button class="tool tweet">
+          <fa
+            :icon="['fab', 'twitter']"
+          />
+          <span>tweet</span>
+        </button>
+      </a>
+      <button
+        class="tool"
+        @click="$clipboard('https://modules.tech/module/'+skill.user+'/'+skill.id),$toasted.show('URLをコピーしました。', { duration: 2000 })"
+      >
+        <fa
+          icon="link"
+        />
+        <span>URL</span>
       </button>
     </div>
     <div
@@ -242,8 +252,9 @@ export default {
   border-top-right-radius 5px
   border-bottom-right-radius 5px
   z-index 10
+  padding 0 0 10px
   .tool
-    padding 20px
+    padding 18px 20px
     display block
     margin 0 auto
     font-size 1.2rem
@@ -253,7 +264,7 @@ export default {
       width 100%
       margin 0 auto
       left 0
-      bottom 10px
+      bottom 5px
       font-size .8rem
       font-weight bold
   .isLiked
