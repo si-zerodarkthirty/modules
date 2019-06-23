@@ -44,7 +44,7 @@ export default {
     this.$router.afterEach((to, from, next) => {
       setTimeout(() => {
         this.entered = false;
-      }, 1200);
+      }, 2000);
     });
   },
   methods: {

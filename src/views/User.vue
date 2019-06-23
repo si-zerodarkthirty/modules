@@ -23,9 +23,9 @@
         @click="activeTab = 'created'"
       >Created</button>
       <button
-        :class="{active:activeTab == 'stocked'}"
-        @click="activeTab = 'stocked'"
-      >Stocked</button>
+        :class="{active:activeTab == 'liked'}"
+        @click="activeTab = 'liked'"
+      >Liked</button>
       <button
         :class="{active:activeTab == 'settings'}"
         @click="activeTab = 'settings'"
@@ -41,11 +41,11 @@
         :data="item"
       />
     </div>
-    <div v-if="activeTab == 'stocked'" class="list flex">
-      <ItemById
-        v-for="(itemId, idx) in stockedItems"
-        :key="idx"
-        :dataId="itemId"
+    <div v-if="activeTab == 'liked'" class="list flex">
+      <Item
+        v-for="item in orderBy(likedItems,'createdAt',-1)"
+        :key="item.id"
+        :data="item"
       />
     </div>
     <div v-if="activeTab == 'settings'" class="editor">
@@ -77,18 +77,16 @@
 <script>
 import { db, auth } from '@/main';
 import Item from '@/components/Item.vue';
-import ItemById from '@/components/ItemById.vue';
 import Vue2Filters from 'vue2-filters';
 
 export default {
   components: {
-    Item,
-    ItemById,
+    Item
   },
   data() {
     return {
       user: {},
-      stockedItems: [],
+      likedItems: [],
       createdItems: [],
       activeTab: 'created',
     };
@@ -97,14 +95,8 @@ export default {
     return {
       user: db.collection('users').doc(this.$route.params.uid),
       createdItems: db.collection('items').where('user', '==', this.$route.params.uid),
+      likedItems: db.collection("items").where("likes","array-contains",this.$route.params.uid)
     };
-  },
-  created() {
-    db.collection('users')
-      .doc(this.$route.params.uid)
-      .onSnapshot((user) => {
-        this.stockedItems = user.data().stocks;
-      });
   },
   methods: {
     saveName() {

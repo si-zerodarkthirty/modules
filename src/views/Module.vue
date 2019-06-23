@@ -18,16 +18,6 @@
         />
         <span>{{ skill.likes.length }}</span>
       </button>
-      <button
-        class="tool stock"
-        @click="toggleStock"
-        :class="{isStocked: isStocked}"
-      >
-        <fa
-          icon="layer-group"
-        />
-        <span>{{ stocks }}</span>
-      </button>
     </div>
     <div
       class="thumbnail"
@@ -163,8 +153,6 @@ export default {
     return {
       isVisible: false,
       isLiked: false,
-      isStocked: false,
-      stocks: '',
       skill: {},
       currentUser: {},
       dependents: {},
@@ -208,17 +196,6 @@ export default {
             this.isLiked = false;
           }
         });
-      db.collection('users')
-        .doc(user.uid)
-        .onSnapshot((user) => {
-          this.stocks = user.data().stocks.length;
-          const isStocked = user.data().stocks.find(stock => stock == this.$route.params.id);
-          if (isStocked) {
-            this.isStocked = true;
-          } else {
-            this.isStocked = false;
-          }
-        });
     });
   },
   methods: {
@@ -249,29 +226,6 @@ export default {
       } else {
         this.$toasted.show('moduleにlikeするにはサインインが必要です。', { duration: 2000 });
       }
-    },
-    toggleStock() {
-      if (this.currentUser) {
-        if (this.isStocked) {
-          db.collection('users')
-            .doc(this.currentUser.uid)
-            .update({
-              stocks: firebase.firestore.FieldValue.arrayRemove(this.$route.params.id),
-            }).then(
-              this.$toasted.show('moduleをstockから削除しました。', { duration: 2000 }),
-            );
-        } else {
-          db.collection('users')
-            .doc(this.currentUser.uid)
-            .update({
-              stocks: firebase.firestore.FieldValue.arrayUnion(this.$route.params.id),
-            }).then(
-              this.$toasted.show('moduleをstockしました。', { duration: 2000 }),
-            );
-        }
-      } else {
-        this.$toasted.show('moduleをstockするにはサインインが必要です。', { duration: 2000 });
-      }
     }
   },
 };
@@ -282,14 +236,14 @@ export default {
   position fixed
   top 70px
   left 0
-  width 75px
+  width 60px
   background white
   box-shadow 0 0 10px rgba(0,0,0,.2)
   border-top-right-radius 5px
   border-bottom-right-radius 5px
   z-index 10
   .tool
-    padding 22px 20px
+    padding 20px
     display block
     margin 0 auto
     font-size 1.2rem
@@ -302,8 +256,6 @@ export default {
       bottom 10px
       font-size .8rem
       font-weight bold
-  .isStocked
-    color #6B8E23
   .isLiked
     color #ff0090
 .thumbnail
