@@ -28,19 +28,6 @@
         />
         <span>{{ stocks }}</span>
       </button>
-      <!--
-      <button v-if="skill.price" class="tool">
-        <payjp-checkout
-          api-key="pk_test_9a2790c3b3ce07f8fbe888a0"
-          client-id="6d48a11e34d146e794d3ffebbabeab47c8078d75"
-          :text="skill.price+'円を支払う'"
-          :submit-text="'「'+skill.title+'」を購入'"
-          :name-placeholder="currentUser.displayName"
-          :created="onTokenCreated"
-          :failed="onTokenFailed"
-        ></payjp-checkout>
-      </button>
-      -->
     </div>
     <div
       class="thumbnail"
