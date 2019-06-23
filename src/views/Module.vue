@@ -49,7 +49,7 @@
       <div class="texts">
         <div
           class="menu-btn"
-          v-if="currentUser.uid === $route.params.uid"
+          v-if="currentUser && currentUser.uid === $route.params.uid"
           @click="isVisible = !isVisible"
         >
           <fa
@@ -113,7 +113,7 @@
         </div>
         <div v-else
              class="mini-list">
-          <div v-if="dependents.length > 0">
+          <div v-if="dependents && dependents.length > 0">
             <MiniItem
               v-for="item in dependents"
               :key="item.id"
@@ -134,7 +134,7 @@
         class="content"
         v-html="md.render(skill.content)"
       ></div>
-      <div v-if="dependents.length > 0" class="next">
+      <div v-if="dependents && dependents.length > 0" class="next">
         <h3>next modules</h3>
         <div class="mini-list">
           <MiniItem
@@ -285,13 +285,7 @@ export default {
       } else {
         this.$toasted.show('moduleをstockするにはサインインが必要です。', { duration: 2000 });
       }
-    },
-    onTokenCreated() {
-
-    },
-    onTokenFailed() {
-
-    },
+    }
   },
 };
 </script>

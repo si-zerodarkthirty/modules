@@ -134,7 +134,6 @@ export default {
       background #2c3e50
       border-radius 50%
       -webkit-border-radius 50%
-      box-shadow 0 0 5px rgba(0,0,0,.5)
 .order-by
   margin 10px 0 0
   button
