@@ -18,19 +18,19 @@
       </div>
     </div>
     <nav>
-      <button 
+      <button
         :class="{active:activeTab == 'created'}"
         @click="activeTab = 'created'"
       >Created</button>
-      <button 
+      <button
         :class="{active:activeTab == 'stocked'}"
         @click="activeTab = 'stocked'"
       >Stocked</button>
-      <button 
+      <button
         :class="{active:activeTab == 'settings'}"
         @click="activeTab = 'settings'"
       >Settings</button>
-      <button 
+      <button
         @click="signOut"
       >Log Out</button>
     </nav>
@@ -50,21 +50,21 @@
     </div>
     <div v-if="activeTab == 'settings'" class="editor">
       <label for="name">name（Enterで保存）</label>
-      <input 
+      <input
         type="text"
         name="name"
         v-model="user.name"
         @keypress.enter="saveName"
       >
       <label for="avatar">avatar URL（Enterで保存）</label>
-      <input 
+      <input
         type="text"
         name="avatar"
         v-model="user.avatar"
         @keypress.enter="saveAvatar"
       >
       <label for="twitter">twitter ID（Enterで保存）</label>
-      <input 
+      <input
         type="text"
         name="twitter"
         v-model="user.twitter"
@@ -78,73 +78,73 @@
 import { db, auth } from '@/main';
 import Item from '@/components/Item.vue';
 import ItemById from '@/components/ItemById.vue';
-import Vue2Filters from 'vue2-filters'
+import Vue2Filters from 'vue2-filters';
 
 export default {
   components: {
     Item,
-    ItemById
+    ItemById,
   },
   data() {
     return {
       user: {},
       stockedItems: [],
       createdItems: [],
-      activeTab: 'created'
+      activeTab: 'created',
     };
   },
   firestore() {
     return {
       user: db.collection('users').doc(this.$route.params.uid),
-      createdItems: db.collection('items').where('user', '==', this.$route.params.uid)
+      createdItems: db.collection('items').where('user', '==', this.$route.params.uid),
     };
   },
-  created () {
-    db.collection("users")
+  created() {
+    db.collection('users')
       .doc(this.$route.params.uid)
-      .onSnapshot(user => {
-        this.stockedItems = user.data().stocks
+      .onSnapshot((user) => {
+        this.stockedItems = user.data().stocks;
       });
   },
   methods: {
-    saveName () {
-      db.collection("users").doc(this.$route.params.uid)
-      .set({
-        name: this.user.name
-      },{merge: true})
-      .then(
-        this.$toasted.show('名前を更新しました。', { duration: 2000 })
-      )
+    saveName() {
+      db.collection('users').doc(this.$route.params.uid)
+        .set({
+          name: this.user.name,
+        }, { merge: true })
+        .then(
+          this.$toasted.show('名前を更新しました。', { duration: 2000 }),
+        );
     },
-    saveAvatar () {
-      db.collection("users").doc(this.$route.params.uid)
-      .set({
-        avatar: this.user.avatar
-      },{merge: true})
-      .then(
-        this.$toasted.show('アイコン画像を更新しました。', { duration: 2000 })
-      )
+    saveAvatar() {
+      db.collection('users').doc(this.$route.params.uid)
+        .set({
+          avatar: this.user.avatar,
+        }, { merge: true })
+        .then(
+          this.$toasted.show('アイコン画像を更新しました。', { duration: 2000 }),
+        );
     },
-    saveTwitter () {
-      db.collection("users").doc(this.$route.params.uid)
-      .set({
-        twitter: this.user.twitter
-      },{merge: true})
-      .then(
-        this.$toasted.show('Twitter IDを更新しました。', { duration: 2000 })
-      )
+    saveTwitter() {
+      db.collection('users').doc(this.$route.params.uid)
+        .set({
+          twitter: this.user.twitter,
+        }, { merge: true })
+        .then(
+          this.$toasted.show('Twitter IDを更新しました。', { duration: 2000 }),
+        );
     },
-    signOut () {
+    signOut() {
       if (window.confirm('ログアウトしてよろしいですか？')) {
         auth.signOut()
-        .then(
-          this.$toasted.show('ログアウトしました。', { duration: 2000 }),
-          this.$router.push('/')
-        )
+          .then(
+            this.$toasted.show('ログアウトしました。', { duration: 2000 }),
+            this.$router.push('/'),
+          );
       }
-    }
+    },
   },
-  mixins: [Vue2Filters.mixin]
+  mixins: [Vue2Filters.mixin],
 };
 </script>
 

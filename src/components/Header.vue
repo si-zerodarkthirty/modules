@@ -22,8 +22,8 @@
     <nav class="flex">
       <router-link to="/create">
         <button class="create-btn">
-          <fa 
-            icon="code" 
+          <fa
+            icon="code"
           />
           create new
         </button>
@@ -61,7 +61,7 @@ export default {
       db.collection('users').doc(user.uid).set({
         displayName: user.displayName,
         photoURL: user.photoURL,
-        email: user.email
+        email: user.email,
       }, { merge: true });
     },
   },

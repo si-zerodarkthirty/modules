@@ -1,6 +1,6 @@
 <template>
   <div class="keywords">
-    <span 
+    <span
       class="keyword"
       v-for="(keyword,idx) in keywords"
       :key="idx"
@@ -12,8 +12,8 @@
 
 <script>
 export default {
-  props: ["keywords"]
-}
+  props: ['keywords'],
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -30,5 +30,3 @@ export default {
     line-height 20px
     border-radius 20px
 </style>
-
-

@@ -6,7 +6,7 @@
     >
       <div class="likes">
         <fa
-          icon="heart" 
+          icon="heart"
         />
         <p>{{data.likes.length}}</p>
       </div>
@@ -14,19 +14,19 @@
     <router-link :to="'/module/'+data.user+'/'+data.id">
       <h2>{{ data.title }}</h2>
     </router-link>
-    <Keywords 
+    <Keywords
       :keywords="data.keywords"
     />
-    <UserData 
+    <UserData
       :uid="data.user"
       :createdAt="data.createdAt"
     />
-    <p 
-      v-if="data.price" 
+    <p
+      v-if="data.price"
       class="price"
     >¥ {{ data.price }}</p>
-    <p 
-      v-else 
+    <p
+      v-else
       class="price"
     >Free</p>
   </div>
@@ -34,22 +34,23 @@
 
 <script>
 import { db } from '@/main';
-import UserData from "@/components/UserData";
-import Keywords from "@/components/Keywords";
+import UserData from '@/components/UserData';
+import Keywords from '@/components/Keywords';
+
 export default {
   props: ['dataId'],
   components: {
     UserData,
-    Keywords
+    Keywords,
   },
   data() {
     return {
-      data: {}
+      data: {},
     };
   },
   firestore() {
     return {
-      data: db.collection("items").doc(this.$props.dataId)
+      data: db.collection('items').doc(this.$props.dataId),
     };
   },
 };

@@ -22,20 +22,21 @@
 </template>
 
 <script>
-import { db } from "@/main"
+import { db } from '@/main';
+
 export default {
-  props: ["uid","createdAt"],
-  data () {
+  props: ['uid', 'createdAt'],
+  data() {
     return {
-      user: {}
-    }
+      user: {},
+    };
   },
-  firestore () {
+  firestore() {
     return {
-      user: db.collection("users").doc(this.$props.uid)
-    }
-  }
-}
+      user: db.collection('users').doc(this.$props.uid),
+    };
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -58,4 +59,3 @@ export default {
     .user-name
       font-size 1rem
 </style>
-

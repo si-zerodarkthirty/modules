@@ -6,7 +6,7 @@
       @click="update"
       :class="{viable: skill.title && skill.description && skill.keywords && skill.content}"
     >
-      <fa 
+      <fa
         icon="upload"
       />
       upload this module
@@ -94,7 +94,7 @@
       @keypress.enter="updateDependency"
     >
     <div v-if="skill.dependency" class="result flex">
-      <div 
+      <div
         class="result-thumbnail"
         :style="'background-image: url('+gotItem.thumbnail+');'"
       ></div>
@@ -135,20 +135,21 @@
 </template>
 
 <script>
-import { db, auth } from '@/main';
+import { db } from '@/main';
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+
 export default {
-  data () {
+  data() {
     return {
       skill: {},
       gotItem: {},
-      gotItemId: "",
-      keyword: "",
+      gotItemId: '',
+      keyword: '',
       keywords: [],
       md: new markdownIt({
         highlight(code, lang) {
@@ -167,37 +168,37 @@ export default {
           permalinkSymbol: '§',
         })
         .use(markdownItTocDoneRight)
-        .use(katex, { throwOnError: false, errorColor: ' #cc0000' })
-    }
+        .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
+    };
   },
-  firestore () {
+  firestore() {
     return {
-      skill: db.collection("items").doc(this.$route.params.id)
-    }
+      skill: db.collection('items').doc(this.$route.params.id),
+    };
   },
-  created () {
-    db.collection("items").doc(this.$route.params.id)
-    .get()
-    .then(item => {
-      this.keywords = item.data().keywords
-      if (item.data().dependency) {
-        db.collection("items").doc(item.data().dependency)
-        .get()
-        .then(item => {
-          this.gotItem = item.data()
-        })
-      }
-    })
+  created() {
+    db.collection('items').doc(this.$route.params.id)
+      .get()
+      .then((item) => {
+        this.keywords = item.data().keywords;
+        if (item.data().dependency) {
+          db.collection('items').doc(item.data().dependency)
+            .get()
+            .then((item) => {
+              this.gotItem = item.data();
+            });
+        }
+      });
   },
   methods: {
-    getItem () {
-      db.collection("items").doc(this.skill.dependency)
-      .onSnapshot(item => {
-        this.gotItem = item.data()
-        this.skill.dependency = item.id
-      })
+    getItem() {
+      db.collection('items').doc(this.skill.dependency)
+        .onSnapshot((item) => {
+          this.gotItem = item.data();
+          this.skill.dependency = item.id;
+        });
     },
-    addKeyword () {
+    addKeyword() {
       this.keywords.push(this.keyword)
         .then(
           this.keyword = '',
@@ -206,7 +207,7 @@ export default {
     deleteKeyword(i) {
       this.keywords.splice(i, 1);
     },
-    update () {
+    update() {
       if (this.skill.title && this.skill.description && this.skill.keywords && this.skill.content) {
         const date = this.$date(new Date(), 'DD.MMMM.YYYY');
         db.collection('items').doc(this.$route.params.id).set({
@@ -216,24 +217,24 @@ export default {
           description: this.skill.description,
           content: this.skill.content,
           upadatedAt: date,
-          keywords: this.keywords
-        }, {merge: true})
-        .then(
-          this.$toasted.show('moduleが更新されました！', { duration: 2000 }),
-          this.$router.push('/module/'+this.skill.user+'/'+this.skill.id)
-        );
+          keywords: this.keywords,
+        }, { merge: true })
+          .then(
+            this.$toasted.show('moduleが更新されました！', { duration: 2000 }),
+            this.$router.push(`/module/${this.skill.user}/${this.skill.id}`),
+          );
       } else {
         this.$toasted.show('必要な情報を記入してください。', { duration: 2000 });
       }
     },
-    updateDependency () {
+    updateDependency() {
       db.collection('items').doc(this.$route.params.id).set({
-        dependency: this.skill.dependency
-      }, {merge: true})
-      .then(
-        this.$toasted.show('moduleが更新されました！', { duration: 2000 })
-      );
-    }
-  }
-}
+        dependency: this.skill.dependency,
+      }, { merge: true })
+        .then(
+          this.$toasted.show('moduleが更新されました！', { duration: 2000 }),
+        );
+    },
+  },
+};
 </script>

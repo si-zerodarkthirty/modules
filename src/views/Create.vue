@@ -6,7 +6,7 @@
       @click="publish"
       :class="{viable: title && description && keywords && content}"
     >
-      <fa 
+      <fa
         icon="upload"
       />
       upload this module
@@ -94,7 +94,7 @@
       @keypress.enter="getItem"
     >
     <div v-if="inputId" class="result flex">
-      <div 
+      <div
         v-if="gotItemId"
         class="result-thumbnail"
         :style="'background-image: url('+gotItem.thumbnail+');'"
@@ -147,9 +147,9 @@ export default {
   data() {
     return {
       currentUser: {},
-      inputId: "",
+      inputId: '',
       gotItem: {},
-      gotItemId: "",
+      gotItemId: '',
       price: 0,
       title: '',
       thumbnail: '',
@@ -174,32 +174,32 @@ export default {
           permalinkSymbol: '§',
         })
         .use(markdownItTocDoneRight)
-        .use(katex, { throwOnError: false, errorColor: ' #cc0000' })
+        .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
     };
   },
-  created () {
+  created() {
     auth.onAuthStateChanged((user) => {
       this.currentUser = user;
     });
   },
   methods: {
-    getItem () {
-      db.collection("items").doc(this.inputId)
-      .onSnapshot(item => {
-        this.gotItem = item.data()
-        this.gotItemId = item.id
-      })
+    getItem() {
+      db.collection('items').doc(this.inputId)
+        .onSnapshot((item) => {
+          this.gotItem = item.data();
+          this.gotItemId = item.id;
+        });
     },
-    addKeyword () {
+    addKeyword() {
       this.keywords.push(this.keyword)
         .then(
           this.keyword = '',
         );
     },
-    deleteKeyword (i) {
+    deleteKeyword(i) {
       this.keywords.splice(i, 1);
     },
-    publish () {
+    publish() {
       if (this.title && this.description && this.keywords && this.content) {
         const date = this.$date(new Date(), 'DD.MMMM.YYYY');
         db.collection('items').add({
@@ -209,17 +209,17 @@ export default {
           createdAt: date,
           description: this.description,
           keywords: this.keywords,
-          content: this.content
+          content: this.content,
         })
-        .then(data => {
-          this.$toasted.show('moduleが公開されました！', { duration: 2000 }),
-          this.$router.push('/module/'+this.currentUser.uid+'/'+data.id)
-        });
+          .then((data) => {
+            this.$toasted.show('moduleが公開されました！', { duration: 2000 }),
+            this.$router.push(`/module/${this.currentUser.uid}/${data.id}`);
+          });
       } else {
         this.$toasted.show('必要な情報を記入してください。', { duration: 2000 });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

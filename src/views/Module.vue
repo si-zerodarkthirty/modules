@@ -3,27 +3,27 @@
     <div class="tools">
       <a :href="'https://twitter.com/intent/tweet?text=「'+skill.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+skill.user+'/'+skill.id" target="_blank">
         <button class="tool tweet">
-          <fa 
+          <fa
             :icon="['fab', 'twitter']"
           />
         </button>
-      </a> 
-      <button 
-        class="tool" 
+      </a>
+      <button
+        class="tool"
         @click="toggleLike"
         :class="{isLiked: isLiked}"
       >
-        <fa 
+        <fa
           icon="heart"
         />
         <span>{{ skill.likes.length }}</span>
       </button>
-      <button 
-        class="tool stock" 
+      <button
+        class="tool stock"
         @click="toggleStock"
         :class="{isStocked: isStocked}"
       >
-        <fa 
+        <fa
           icon="layer-group"
         />
         <span>{{ stocks }}</span>
@@ -47,16 +47,16 @@
       :style="'background-image: url('+skill.thumbnail+');'"
     >
       <div class="texts">
-        <div 
+        <div
           class="menu-btn"
           v-if="currentUser.uid === $route.params.uid"
           @click="isVisible = !isVisible"
         >
-          <fa 
+          <fa
             icon="ellipsis-v"
           />
         </div>
-        <div 
+        <div
           v-if="isVisible"
           class="menu"
         >
@@ -66,21 +66,21 @@
           <p @click="deleteItem">削除する</p>
         </div>
         <h1>{{ skill.title }}</h1>
-        <Keywords 
+        <Keywords
           :keywords="skill.keywords"
         />
-        <UserData 
+        <UserData
           :uid="$route.params.uid"
           :createdAt="skill.createdAt"
         />
         <div class="id">
           module ID: {{ skill.id }}
-          <div 
+          <div
             class="copy-btn"
             @click="$clipboard(skill.id),$toasted.show('IDをコピーしました。', { duration: 2000 })"
           >
-            <fa 
-              icon="copy" 
+            <fa
+              icon="copy"
             />
             copy ID
           </div>
@@ -90,20 +90,20 @@
     <div class="body">
       <div class="dependencies">
         <nav>
-          <button 
+          <button
             @click="prevIsVisible = true"
             :class="{active: prevIsVisible}"
             >previous
           </button>
-          <button 
+          <button
             @click="prevIsVisible = false"
             :class="{active: !prevIsVisible}"
             >nexts
           </button>
         </nav>
-        <div v-if="prevIsVisible" 
+        <div v-if="prevIsVisible"
              class="mini-list">
-          <MiniItem 
+          <MiniItem
             v-if="skill.dependency"
             :id="skill.dependency"
           />
@@ -114,7 +114,7 @@
         <div v-else
              class="mini-list">
           <div v-if="dependents.length > 0">
-            <MiniItem 
+            <MiniItem
               v-for="item in dependents"
               :key="item.id"
               :id="item.id"
@@ -125,28 +125,28 @@
           </p>
         </div>
       </div>
-      <div 
+      <div
         class="description"
         v-html="md.render(skill.description)"
       >
       </div>
-      <div 
+      <div
         class="content"
         v-html="md.render(skill.content)"
       ></div>
       <div v-if="dependents.length > 0" class="next">
         <h3>next modules</h3>
         <div class="mini-list">
-          <MiniItem 
+          <MiniItem
             v-for="item in dependents"
             :key="item.id"
             :id="item.id"
           />
         </div>
       </div>
-      <vue-disqus 
-        shortname="modules-1" 
-        :identifier="skill.id" 
+      <vue-disqus
+        shortname="modules-1"
+        :identifier="skill.id"
         :url="'https://modules.com/'+skill.user+'/'+skill.id"
       ></vue-disqus>
     </div>
@@ -156,27 +156,28 @@
 <script>
 import { db, auth } from '@/main';
 import firebase from 'firebase';
-import UserData from "@/components/UserData"
-import Keywords from "@/components/Keywords"
-import MiniItem from "@/components/MiniItem"
+import UserData from '@/components/UserData';
+import Keywords from '@/components/Keywords';
+import MiniItem from '@/components/MiniItem';
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+
 export default {
   components: {
     UserData,
     Keywords,
-    MiniItem
+    MiniItem,
   },
-  data () {
+  data() {
     return {
       isVisible: false,
       isLiked: false,
       isStocked: false,
-      stocks: "",
+      stocks: '',
       skill: {},
       currentUser: {},
       dependents: {},
@@ -191,107 +192,107 @@ export default {
         xhtmlOut: true,
         typographer: true,
       })
-      .use(sanitizer)
-      .use(markdownItAnchor, {
-        permalink: true,
-        permalinkBefore: true,
-        permalinkSymbol: '§',
-      })
-      .use(markdownItTocDoneRight)
-      .use(katex, { throwOnError: false, errorColor: ' #cc0000' })
+        .use(sanitizer)
+        .use(markdownItAnchor, {
+          permalink: true,
+          permalinkBefore: true,
+          permalinkSymbol: '§',
+        })
+        .use(markdownItTocDoneRight)
+        .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
     };
   },
-  firestore () {
+  firestore() {
     return {
       skill: db.collection('items').doc(this.$route.params.id),
-      dependents: db.collection("items").where("dependency","==",this.$route.params.id)
+      dependents: db.collection('items').where('dependency', '==', this.$route.params.id),
     };
   },
-  created () {
+  created() {
     auth.onAuthStateChanged((user) => {
       this.currentUser = user;
-      db.collection("items")
+      db.collection('items')
         .doc(this.$route.params.id)
-        .onSnapshot(item => {
-          const isLiked = item.data().likes.find(like => like == user.uid)
+        .onSnapshot((item) => {
+          const isLiked = item.data().likes.find(like => like == user.uid);
           if (isLiked) {
-            this.isLiked = true
+            this.isLiked = true;
           } else {
-            this.isLiked = false
+            this.isLiked = false;
           }
         });
-      db.collection("users")
+      db.collection('users')
         .doc(user.uid)
-        .onSnapshot(user => {
-          this.stocks = user.data().stocks.length
-          const isStocked = user.data().stocks.find(stock => stock == this.$route.params.id)
+        .onSnapshot((user) => {
+          this.stocks = user.data().stocks.length;
+          const isStocked = user.data().stocks.find(stock => stock == this.$route.params.id);
           if (isStocked) {
-            this.isStocked = true
+            this.isStocked = true;
           } else {
-            this.isStocked = false
+            this.isStocked = false;
           }
         });
     });
   },
   methods: {
-    deleteItem () {
-      if (window.confirm('「'+this.skill.title+'」を削除します。よろしいですか？')) {
-        db.collection("items").doc(this.$route.params.id)
-        .delete()
-        .then(
-          this.$router.push('/user/'+this.skill.user)
-        )
+    deleteItem() {
+      if (window.confirm(`「${this.skill.title}」を削除します。よろしいですか？`)) {
+        db.collection('items').doc(this.$route.params.id)
+          .delete()
+          .then(
+            this.$router.push(`/user/${this.skill.user}`),
+          );
       }
     },
-    toggleLike () {
+    toggleLike() {
       if (this.currentUser) {
         if (this.isLiked) {
-          db.collection("items")
+          db.collection('items')
             .doc(this.$route.params.id)
             .update({
-              likes: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid)
-            })
+              likes: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid),
+            });
         } else {
-          db.collection("items")
+          db.collection('items')
             .doc(this.$route.params.id)
             .update({
-              likes: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid)
-            })
+              likes: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid),
+            });
         }
       } else {
-        this.$toasted.show('moduleにlikeするにはサインインが必要です。', { duration: 2000 })
+        this.$toasted.show('moduleにlikeするにはサインインが必要です。', { duration: 2000 });
       }
     },
-    toggleStock () {
+    toggleStock() {
       if (this.currentUser) {
         if (this.isStocked) {
-          db.collection("users")
+          db.collection('users')
             .doc(this.currentUser.uid)
             .update({
-              stocks: firebase.firestore.FieldValue.arrayRemove(this.$route.params.id)
+              stocks: firebase.firestore.FieldValue.arrayRemove(this.$route.params.id),
             }).then(
-              this.$toasted.show('moduleをstockから削除しました。', { duration: 2000 })
-            )
+              this.$toasted.show('moduleをstockから削除しました。', { duration: 2000 }),
+            );
         } else {
-          db.collection("users")
+          db.collection('users')
             .doc(this.currentUser.uid)
             .update({
-              stocks: firebase.firestore.FieldValue.arrayUnion(this.$route.params.id)
+              stocks: firebase.firestore.FieldValue.arrayUnion(this.$route.params.id),
             }).then(
-              this.$toasted.show('moduleをstockしました。', { duration: 2000 })
-            )
+              this.$toasted.show('moduleをstockしました。', { duration: 2000 }),
+            );
         }
       } else {
-        this.$toasted.show('moduleをstockするにはサインインが必要です。', { duration: 2000 })
+        this.$toasted.show('moduleをstockするにはサインインが必要です。', { duration: 2000 });
       }
     },
-    onTokenCreated () {
+    onTokenCreated() {
 
     },
-    onTokenFailed () {
+    onTokenFailed() {
 
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -432,11 +433,11 @@ nav
     font-weight bold
     margin-bottom 50px
   .content
-    padding-bottom 50px 
+    padding-bottom 50px
   .next
     border-top 1px solid #eee
     border-bottom 1px solid #eee
-    padding-bottom 50px 
+    padding-bottom 50px
     margin-bottom 50px
     h3
       text-align center

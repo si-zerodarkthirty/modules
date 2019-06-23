@@ -1,4 +1,4 @@
-# skillhunt
+# Modules
 
 ## Project setup
 ```

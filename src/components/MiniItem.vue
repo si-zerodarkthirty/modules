@@ -1,6 +1,6 @@
 <template>
   <div class="mini-item flex">
-    <div 
+    <div
       class="thumbnail"
       :style="'background-image: url('+data.thumbnail+');'"
     ></div>
@@ -11,20 +11,21 @@
 </template>
 
 <script>
-import { db } from "@/main"
+import { db } from '@/main';
+
 export default {
-  props: ["id"],
-  data () {
+  props: ['id'],
+  data() {
     return {
-      data: {}
-    }
+      data: {},
+    };
   },
-  firestore () {
+  firestore() {
     return {
-      data: db.collection("items").doc(this.$props.id)
-    }
-  }
-}
+      data: db.collection('items').doc(this.$props.id),
+    };
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -45,4 +46,3 @@ export default {
     font-size .9rem
     line-height 1.5rem
 </style>
-

@@ -16,8 +16,8 @@ import {
   faLayerGroup,
 } from '@fortawesome/free-solid-svg-icons';
 import {
-  faTwitter
-} from "@fortawesome/free-brands-svg-icons";
+  faTwitter,
+} from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 import { firestorePlugin } from 'vuefire';
@@ -27,8 +27,14 @@ import 'firebase/firestore';
 import VueDateFns from 'vue-date-fns';
 
 import Toasted from 'vue-toasted';
-import router from './router';
+
+import Clipboard from 'v-clipboard';
+
+import VueDisqus from 'vue-disqus';
+
+import PayjpCheckout from 'vue-payjp-checkout';
 import App from './App.vue';
+import router from './router';
 
 library.add(
   faUser,
@@ -42,7 +48,7 @@ library.add(
   faTwitter,
   faHeart,
   faYenSign,
-  faLayerGroup
+  faLayerGroup,
 );
 Vue.component('fa', FontAwesomeIcon);
 Vue.use(firestorePlugin);
@@ -59,18 +65,12 @@ export const db = firebase.firestore();
 export const auth = firebase.auth();
 Vue.use(VueDateFns);
 Vue.use(Toasted);
-
-import Clipboard from 'v-clipboard';
-Vue.use(Clipboard)
-
-import VueDisqus from 'vue-disqus';
-Vue.use(VueDisqus)
-
-import PayjpCheckout from 'vue-payjp-checkout';
-Vue.use(PayjpCheckout)
+Vue.use(Clipboard);
+Vue.use(VueDisqus);
+Vue.use(PayjpCheckout);
 
 Vue.config.productionTip = false;
 new Vue({
   router,
-  render: h => h(App)
+  render: h => h(App),
 }).$mount('#app');

@@ -3,7 +3,7 @@
     <Header />
     <main>
       <div v-if="isLoading" class="loader">
-        <rotate-loader 
+        <rotate-loader
           :loading="isLoading"
           color="#2c3e50"
         ></rotate-loader>
@@ -17,44 +17,44 @@
 <script>
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import RotateLoader from 'vue-spinner/src/RotateLoader.vue'
+import RotateLoader from 'vue-spinner/src/RotateLoader.vue';
 
 export default {
   components: {
     Header,
     Footer,
-    RotateLoader
+    RotateLoader,
   },
-  data () {
+  data() {
     return {
       entered: false,
-      isLoading: false
-    }
-  },	
-  watch: {
-    entered: function () {
-      this.entered ? this.enter() : this.leave()
-    }
+      isLoading: false,
+    };
   },
-  mounted () {
+  watch: {
+    entered() {
+      this.entered ? this.enter() : this.leave();
+    },
+  },
+  mounted() {
     this.$router.beforeResolve((to, from, next) => {
-      this.entered = true
-      next()
-    })
+      this.entered = true;
+      next();
+    });
     this.$router.afterEach((to, from, next) => {
-      setTimeout( () => {
-        this.entered = false
+      setTimeout(() => {
+        this.entered = false;
       }, 1200);
-    })
+    });
   },
   methods: {
-    enter () {
-      this.isLoading = true
+    enter() {
+      this.isLoading = true;
     },
-    leave () {
-      this.isLoading = false
-    }
-  }
+    leave() {
+      this.isLoading = false;
+    },
+  },
 };
 </script>
 

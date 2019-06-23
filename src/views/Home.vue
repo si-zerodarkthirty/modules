@@ -11,10 +11,10 @@
       >
       <div class="price-range flex">
         <label for="price">price &#x2264 ¥{{ maxPrice }}</label>
-        <input 
-          type="range" 
-          name="price" 
-          min="0" 
+        <input
+          type="range"
+          name="price"
+          min="0"
           max="1000"
           step="50"
           v-model="maxPrice"
@@ -49,7 +49,7 @@
 <script>
 import { db } from '@/main';
 import Item from '@/components/Item.vue';
-import Vue2Filters from 'vue2-filters'
+import Vue2Filters from 'vue2-filters';
 
 export default {
   name: 'home',
@@ -59,22 +59,22 @@ export default {
   data() {
     return {
       items: [],
-      query: "",
+      query: '',
       maxPrice: 500,
-      order: "likes.length"
+      order: 'likes.length',
     };
   },
   firestore() {
     return {
-      items: db.collection("items")
+      items: db.collection('items'),
     };
   },
   methods: {
-    filterByPrice (items,max) {
-      return items.filter(item => item.price <= max)
-    }
+    filterByPrice(items, max) {
+      return items.filter(item => item.price <= max);
+    },
   },
-  mixins: [Vue2Filters.mixin]
+  mixins: [Vue2Filters.mixin],
 };
 </script>
 
