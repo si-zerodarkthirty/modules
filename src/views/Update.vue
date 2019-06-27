@@ -23,6 +23,7 @@
       step="50"
       v-model="skill.price"
       class="price"
+      min="0"
     >
     <label for="title">
       title
@@ -216,7 +217,7 @@ export default {
           thumbnail: this.skill.thumbnail,
           description: this.skill.description,
           content: this.skill.content,
-          upadatedAt: date,
+          updatedAt: date,
           keywords: this.keywords,
         }, { merge: true })
           .then(

@@ -5,7 +5,19 @@
         v-if="user.avatar"
         class="avatar"
         :style="'background-image: url('+user.avatar+');'"
-      ></div>
+      >
+        <a
+          v-if="user.twitter"
+          :href="'https://twitter.com/'+user.twitter"
+          target="_blank"
+        >
+          <div class="tw-btn">
+            <fa
+              :icon="['fab','twitter']"
+            />
+          </div>
+        </a>
+      </div>
       <div
         v-else
         class="avatar"
@@ -27,23 +39,75 @@
         @click="activeTab = 'liked'"
       >Liked</button>
       <button
+        v-if="currentUser && currentUser.uid == user.id"
+        :class="{active:activeTab == 'done'}"
+        @click="activeTab = 'done'"
+      >Done</button>
+      <button
+        v-if="currentUser && currentUser.uid == user.id"
         :class="{active:activeTab == 'settings'}"
         @click="activeTab = 'settings'"
       >Settings</button>
       <button
+        v-if="currentUser && currentUser.uid == user.id"
         @click="signOut"
       >Log Out</button>
     </nav>
-    <div v-if="activeTab == 'created'" class="list flex">
-      <Item
-        v-for="item in orderBy(createdItems,'createdAt',-1)"
-        :key="item.id"
-        :data="item"
-      />
+    <div class="tab-content" v-if="activeTab == 'created'">
+      <nav>
+        <button
+          @click="moduleIsVisible = true"
+          :class="{active: moduleIsVisible}"
+        >modules</button>
+        <button
+          @click="moduleIsVisible = false"
+          :class="{active: !moduleIsVisible}"
+        >tutorials</button>
+      </nav>
+      <div v-if="moduleIsVisible" class="list flex">
+        <Item
+          v-for="item in orderBy(createdItems,'createdAt',-1)"
+          :key="item.id"
+          :data="item"
+        />
+      </div>
+      <div v-else class="list flex">
+        <TutorialItem
+          v-for="item in orderBy(tutorials,'createdAt',-1)"
+          :key="item.id"
+          :data="item"
+        />
+      </div>
     </div>
-    <div v-if="activeTab == 'liked'" class="list flex">
+    <div v-if="activeTab == 'liked'" class="tab-content">
+      <nav>
+        <button
+          @click="moduleIsVisible = true"
+          :class="{active: moduleIsVisible}"
+        >modules</button>
+        <button
+          @click="moduleIsVisible = false"
+          :class="{active: !moduleIsVisible}"
+        >tutorials</button>
+      </nav>
+      <div v-if="moduleIsVisible" class="list flex">
+        <Item
+          v-for="item in orderBy(likedItems,'createdAt',-1)"
+          :key="item.id"
+          :data="item"
+        />
+      </div>
+      <div v-else class="list flex">
+        <TutorialItem
+          v-for="item in orderBy(likedTutorials,'createdAt',-1)"
+          :key="item.id"
+          :data="item"
+        />
+      </div>
+    </div>
+    <div v-if="activeTab == 'done'" class="list flex">
       <Item
-        v-for="item in orderBy(likedItems,'createdAt',-1)"
+        v-for="item in orderBy(doneItems,'createdAt',-1)"
         :key="item.id"
         :data="item"
       />
@@ -77,25 +141,40 @@
 <script>
 import { db, auth } from '@/main';
 import Item from '@/components/Item.vue';
+import TutorialItem from '@/components/TutorialItem.vue';
 import Vue2Filters from 'vue2-filters';
 
 export default {
   components: {
-    Item
+    Item,
+    TutorialItem,
   },
   data() {
     return {
       user: {},
+      currentUser: {},
       likedItems: [],
+      doneItems: [],
       createdItems: [],
+      tutorials: [],
+      likedTutorials: [],
       activeTab: 'created',
+      moduleIsVisible: true,
     };
+  },
+  created() {
+    auth.onAuthStateChanged((user) => {
+      this.currentUser = user;
+    });
   },
   firestore() {
     return {
       user: db.collection('users').doc(this.$route.params.uid),
       createdItems: db.collection('items').where('user', '==', this.$route.params.uid),
-      likedItems: db.collection("items").where("likes","array-contains",this.$route.params.uid)
+      likedItems: db.collection('items').where('likes', 'array-contains', this.$route.params.uid),
+      doneItems: db.collection('items').where('dones', 'array-contains', this.$route.params.uid),
+      tutorials: db.collection('tutorials').where('user', '==', this.$route.params.uid),
+      likedTutorials: db.collection('tutorials').where('likes', 'array-contains', this.$route.params.uid),
     };
   },
   methods: {
@@ -148,6 +227,20 @@ export default {
     border-radius 50%
     background-size cover
     border 2px solid #2c3e50
+    position relative
+    .tw-btn
+      position absolute
+      bottom -5px
+      right -5px
+      font-size 1rem
+      text-align center
+      color white
+      background #2c3e50
+      width 25px
+      height 25px
+      line-height 26px
+      border-radius 50%
+      box-shadow 0 0 5px rgba(0,0,0,.5)
   .texts
     margin-left 10px
     h2
@@ -164,4 +257,7 @@ nav
   .active
     border-bottom 3px solid #2c3e50
     font-weight bold
+.tab-content
+  nav
+    margin 20px auto
 </style>

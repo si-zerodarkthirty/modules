@@ -16,7 +16,11 @@ import {
   faClock,
   faArrowUp,
   faArrowDown,
-  faLink
+  faLink,
+  faPuzzlePiece,
+  faLayerGroup,
+  faCheck,
+  faCartPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faTwitter,
@@ -35,7 +39,6 @@ import Clipboard from 'v-clipboard';
 
 import VueDisqus from 'vue-disqus';
 
-import PayjpCheckout from 'vue-payjp-checkout';
 import App from './App.vue';
 import router from './router';
 
@@ -54,7 +57,11 @@ library.add(
   faClock,
   faArrowUp,
   faArrowDown,
-  faLink
+  faLink,
+  faPuzzlePiece,
+  faLayerGroup,
+  faCheck,
+  faCartPlus,
 );
 Vue.component('fa', FontAwesomeIcon);
 Vue.use(firestorePlugin);
@@ -73,7 +80,6 @@ Vue.use(VueDateFns);
 Vue.use(Toasted);
 Vue.use(Clipboard);
 Vue.use(VueDisqus);
-Vue.use(PayjpCheckout);
 
 Vue.config.productionTip = false;
 new Vue({

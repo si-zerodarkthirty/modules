@@ -16,7 +16,7 @@
     <div class="texts">
       <p v-if="user.name" class="user-name">{{ user.name }}</p>
       <p v-else class="user-name">{{ user.displayName }}</p>
-      <p class="date">{{ createdAt }}</p>
+      <p class="date">{{ date }}</p>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@
 import { db } from '@/main';
 
 export default {
-  props: ['uid', 'createdAt'],
+  props: ['uid', 'date'],
   data() {
     return {
       user: {},

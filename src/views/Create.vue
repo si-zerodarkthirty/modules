@@ -23,6 +23,8 @@
       v-model="price"
       class="price"
       step="50"
+      min="0"
+      max="1000"
     >
     <label for="title">
       title
@@ -103,7 +105,7 @@
     </div>
     <label for="description">
       module description
-      <div class="info">目標, ターゲット, 前提知識を記入してください。</div>
+      <div class="info">Markdownで編集できます。</div>
     </label>
     <div class="flex content">
       <textarea
@@ -153,7 +155,7 @@ export default {
       price: 0,
       title: '',
       thumbnail: '',
-      description: '',
+      description: '### このモジュールの目標\nこのモジュールの目標は、ブラウザにHelloWorldページを表示させ、簡単なデザインを加えることです。このモジュールをクリアすることで、HTML, CSSの基礎を習得できます。\n### 前提知識\n- HTML, CSSの概要について知っていること。\n### 完成イメージ\n![helloworld_page](https://i.ibb.co/TwMPHNN/download.png)',
       keywords: [],
       content: '### 見出しはh3（#３つ）から始めてください。',
       keyword: '',
@@ -207,6 +209,7 @@ export default {
           title: this.title,
           thumbnail: this.thumbnail,
           createdAt: date,
+          updatedAt: date,
           description: this.description,
           keywords: this.keywords,
           content: this.content,

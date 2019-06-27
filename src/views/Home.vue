@@ -1,53 +1,108 @@
 <template>
   <div class="home">
-    <h2 class="title">Find Modules to Learn.</h2>
-    <p class="sub-title">好きなモジュールを組み合わせて、あなた専用のチュートリアルを作ることができます。</p>
-    <div class="filters">
-      <input
-        type="text"
-        placeholder="search modules"
-        class="search"
-        v-model="query"
-      >
-      <div class="price-range flex">
-        <label for="price">price &#x2264 ¥{{ maxPrice }}</label>
+    <div class="logos flex">
+      <fa
+        class="logo"
+        icon="puzzle-piece"
+        :class="{active: moduleIsVisible}"
+        @click="moduleIsVisible = true"
+      />
+      <fa
+        class="logo"
+        icon="layer-group"
+        :class="{active: !moduleIsVisible}"
+        @click="moduleIsVisible = false"
+      />
+    </div>
+    <div v-if="moduleIsVisible">
+      <h2 class="title">find modules</h2>
+      <p class="sub-title">好きなモジュールを組み合わせて、あなた専用のチュートリアルを作ることができます。</p>
+      <div class="filters">
         <input
-          type="range"
-          name="price"
-          min="0"
-          max="1000"
-          step="50"
-          v-model="maxPrice"
+          type="text"
+          placeholder="search modules"
+          class="search"
+          v-model="query"
         >
-      </div>
-      <div class="order-by flex">
-        <label for="order">order by</label>
-        <button
-          :class="{active: order == 'likes.length'}"
-          @click="order = 'likes.length'"
-        ><fa icon="heart" /></button>
-        <button
-          :class="{active: order == 'price'}"
-          @click="order = 'price'"
-        ><fa icon="yen-sign" /></button>
-        <button
-          :class="{active: order == 'createdAt'}"
-          @click="order = 'createdAt'"
-        ><fa icon="clock" /></button>
-        <button
-          v-if="dir == -1"
-          class="active"
-          @click="dir = 0"
-        ><fa icon="arrow-up" /></button>
-        <button
-          v-else
-          @click="dir = -1"
-        ><fa icon="arrow-down" /></button>
+        <div class="price-range flex">
+          <label for="price">price &#x2264 ¥{{ maxPrice }}</label>
+          <input
+            type="range"
+            name="price"
+            min="0"
+            max="1000"
+            step="50"
+            v-model="maxPrice"
+          >
+        </div>
+        <div class="order-by flex">
+          <label for="order">order by</label>
+          <button
+            :class="{active: order == 'likes.length'}"
+            @click="order = 'likes.length'"
+          ><fa icon="heart" /></button>
+          <button
+            :class="{active: order == 'price'}"
+            @click="order = 'price'"
+          ><fa icon="yen-sign" /></button>
+          <button
+            :class="{active: order == 'updatedAt'}"
+            @click="order = 'updatedAt'"
+          ><fa icon="clock" /></button>
+          <button
+            v-if="dir == -1"
+            class="active"
+            @click="dir = 0"
+          ><fa icon="arrow-up" /></button>
+          <button
+            v-else
+            @click="dir = -1"
+          ><fa icon="arrow-down" /></button>
+        </div>
       </div>
     </div>
-    <section class="list flex">
+    <div v-else>
+      <h2 class="title">find tutorials</h2>
+      <p class="sub-title">他の人が組み立てたチュートリアルにしたがって学習することができます。</p>
+      <div class="filters">
+        <input
+          type="text"
+          placeholder="search tutorials"
+          class="search"
+          v-model="query"
+        >
+        <div class="order-by flex">
+          <label for="order">order by</label>
+          <button
+            :class="{active: order == 'likes.length'}"
+            @click="order = 'likes.length'"
+          ><fa icon="heart" /></button>
+          <button
+            :class="{active: order == 'updatedAt'}"
+            @click="order = 'updatedAt'"
+          ><fa icon="clock" /></button>
+          <button
+            v-if="dir == -1"
+            class="active"
+            @click="dir = 0"
+          ><fa icon="arrow-up" /></button>
+          <button
+            v-else
+            @click="dir = -1"
+          ><fa icon="arrow-down" /></button>
+        </div>
+      </div>
+    </div>
+    <section class="list flex" v-if="moduleIsVisible">
       <Item
         v-for="item in orderBy(filterBy(filterByPrice(items,maxPrice),query,'content'),order,dir)"
+        :key="item.id"
+        :data="item"
+      />
+    </section>
+    <section class="list flex" v-else>
+      <TutorialItem
+        v-for="item in orderBy(filterBy(tutorials,query,'name'),order,dir)"
         :key="item.id"
         :data="item"
       />
@@ -58,12 +113,14 @@
 <script>
 import { db } from '@/main';
 import Item from '@/components/Item.vue';
+import TutorialItem from '@/components/TutorialItem.vue';
 import Vue2Filters from 'vue2-filters';
 
 export default {
   name: 'home',
   components: {
     Item,
+    TutorialItem,
   },
   data() {
     return {
@@ -71,12 +128,14 @@ export default {
       query: '',
       maxPrice: 500,
       order: 'likes.length',
-      dir: -1
+      dir: -1,
+      moduleIsVisible: true,
     };
   },
   firestore() {
     return {
       items: db.collection('items'),
+      tutorials: db.collection('tutorials'),
     };
   },
   methods: {
@@ -89,6 +148,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.logos
+  width 150px
+  margin 10px auto
+  font-size 4rem
+  justify-content space-between
+  .logo
+    color #eee
+    cursor pointer
+  .active
+    color #2c3e50
 .title
   text-align center
   font-size 1.8rem
@@ -104,7 +173,7 @@ export default {
 .filters
   width 90%
   max-width 400px
-  margin 20px auto
+  margin 20px auto 50px
   font-weight bold
 .search
   display block

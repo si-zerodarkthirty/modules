@@ -3,22 +3,46 @@
     <div
       class="thumbnail"
       :style="'background-image: url('+data.thumbnail+');'"
-    ></div>
-    <a :href="'/module/'+data.user+'/'+id">
+    >
+      <div
+        v-if="isDone"
+        class="done-icon"
+      >
+        <fa
+          icon="check"
+        />
+      </div>
+    </div>
+    <router-link :to="'/module/'+data.user+'/'+id">
       <p class="title">{{ data.title }}</p>
-    </a>
+    </router-link>
   </div>
 </template>
 
 <script>
-import { db } from '@/main';
+import { auth, db } from '@/main';
 
 export default {
   props: ['id'],
   data() {
     return {
       data: {},
+      isDone: false,
     };
+  },
+  created() {
+    auth.onAuthStateChanged((user) => {
+      db.collection('items')
+        .doc(this.$props.id)
+        .onSnapshot((item) => {
+          const isDone = item.data().dones.find(done => done == user.uid);
+          if (isDone) {
+            this.isDone = true;
+          } else {
+            this.isDone = false;
+          }
+        });
+    });
   },
   firestore() {
     return {
@@ -41,6 +65,19 @@ export default {
     background-size cover
     background-position center
     border 3px solid #2c3e50
+    position relative
+    overflow hidden
+    .done-icon
+      height 50px
+      line-height 50px
+      position absolute
+      top 0
+      width 100%
+      text-align center
+      z-index 10
+      color white
+      background #2c3e50
+      opacity .9
   .title
     margin 0 0 0 10px
     font-size .9rem

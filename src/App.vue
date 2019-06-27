@@ -44,7 +44,7 @@ export default {
     this.$router.afterEach((to, from, next) => {
       setTimeout(() => {
         this.entered = false;
-      }, 2000);
+      }, 500);
     });
   },
   methods: {
@@ -134,7 +134,8 @@ input:focus, textarea:focus
     font-weight bold
     font-size 1.2rem
     line-height 1.4rem
-    overflow-x scroll
+    overflow scroll
+    max-height 400px
   h3
     margin-top 50px
     padding-bottom 10px
@@ -142,4 +143,8 @@ input:focus, textarea:focus
     border-bottom 1px solid #eee
   a
     font-weight bold
+  img
+    width 100%
+    box-shadow 0 0 10px rgba(0,0,0,.1)
+    border-radius 3px
 </style>

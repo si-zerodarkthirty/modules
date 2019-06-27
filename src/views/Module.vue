@@ -9,9 +9,20 @@
         <fa
           icon="heart"
         />
-        <span>{{ skill.likes.length }}</span>
+        <span>{{ moduleItem.likes.length }}</span>
       </button>
-      <a :href="'https://twitter.com/intent/tweet?text=「'+skill.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+skill.user+'/'+skill.id" target="_blank">
+      <button
+        class="tool"
+        @click="toggleDone"
+        :class="{isDone: isDone}"
+      >
+        <fa
+          icon="check"
+        />
+        <span v-if="isDone">done</span>
+        <span v-else>mark as<br>done</span>
+      </button>
+      <a :href="'https://twitter.com/intent/tweet?text=「'+moduleItem.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+moduleItem.user+'/'+moduleItem.id" target="_blank">
         <button class="tool tweet">
           <fa
             :icon="['fab', 'twitter']"
@@ -21,17 +32,17 @@
       </a>
       <button
         class="tool"
-        @click="$clipboard('https://modules.tech/module/'+skill.user+'/'+skill.id),$toasted.show('URLをコピーしました。', { duration: 2000 })"
+        v-if="moduleItem.price"
       >
         <fa
-          icon="link"
+          icon="cart-plus"
         />
-        <span>URL</span>
+        <span>¥{{moduleItem.price}}</span>
       </button>
     </div>
     <div
       class="thumbnail"
-      :style="'background-image: url('+skill.thumbnail+');'"
+      :style="'background-image: url('+moduleItem.thumbnail+');'"
     >
       <div class="texts">
         <div
@@ -47,24 +58,24 @@
           v-if="isVisible"
           class="menu"
         >
-          <router-link :to="'/update/'+skill.id">
+          <router-link :to="'/update/'+moduleItem.id">
             <p>編集する</p>
           </router-link>
           <p @click="deleteItem">削除する</p>
         </div>
-        <h1>{{ skill.title }}</h1>
+        <h1>{{ moduleItem.title }}</h1>
         <Keywords
-          :keywords="skill.keywords"
+          :keywords="moduleItem.keywords"
         />
         <UserData
           :uid="$route.params.uid"
-          :createdAt="skill.createdAt"
+          :date="moduleItem.updatedAt"
         />
         <div class="id">
-          module ID: {{ skill.id }}
+          module ID: {{ moduleItem.id }}
           <div
             class="copy-btn"
-            @click="$clipboard(skill.id),$toasted.show('IDをコピーしました。', { duration: 2000 })"
+            @click="$clipboard(moduleItem.id),$toasted.show('IDをコピーしました。', { duration: 2000 })"
           >
             <fa
               icon="copy"
@@ -91,8 +102,8 @@
         <div v-if="prevIsVisible"
              class="mini-list">
           <MiniItem
-            v-if="skill.dependency"
-            :id="skill.dependency"
+            v-if="moduleItem.dependency"
+            :id="moduleItem.dependency"
           />
           <p v-else>
             これは最初のモジュールです。
@@ -114,12 +125,12 @@
       </div>
       <div
         class="description"
-        v-html="md.render(skill.description)"
+        v-html="md.render(moduleItem.description)"
       >
       </div>
       <div
         class="content"
-        v-html="md.render(skill.content)"
+        v-html="md.render(moduleItem.content)"
       ></div>
       <div v-if="dependents && dependents.length > 0" class="next">
         <h3>next modules</h3>
@@ -133,8 +144,8 @@
       </div>
       <vue-disqus
         shortname="modules-1"
-        :identifier="skill.id"
-        :url="'https://modules.com/'+skill.user+'/'+skill.id"
+        :identifier="moduleItem.id"
+        :url="'https://modules.com/'+moduleItem.user+'/'+moduleItem.id"
       ></vue-disqus>
     </div>
   </div>
@@ -163,7 +174,8 @@ export default {
     return {
       isVisible: false,
       isLiked: false,
-      skill: {},
+      isDone: false,
+      moduleItem: {},
       currentUser: {},
       dependents: {},
       prevIsVisible: true,
@@ -189,9 +201,12 @@ export default {
   },
   firestore() {
     return {
-      skill: db.collection('items').doc(this.$route.params.id),
+      moduleItem: db.collection('items').doc(this.$route.params.id),
       dependents: db.collection('items').where('dependency', '==', this.$route.params.id),
     };
+  },
+  watch: {
+    $route: 'firestore',
   },
   created() {
     auth.onAuthStateChanged((user) => {
@@ -205,16 +220,22 @@ export default {
           } else {
             this.isLiked = false;
           }
+          const isDone = item.data().dones.find(done => done == user.uid);
+          if (isDone) {
+            this.isDone = true;
+          } else {
+            this.isDone = false;
+          }
         });
     });
   },
   methods: {
     deleteItem() {
-      if (window.confirm(`「${this.skill.title}」を削除します。よろしいですか？`)) {
+      if (window.confirm(`「${this.moduleItem.title}」を削除します。よろしいですか？`)) {
         db.collection('items').doc(this.$route.params.id)
           .delete()
           .then(
-            this.$router.push(`/user/${this.skill.user}`),
+            this.$router.push(`/user/${this.moduleItem.user}`),
           );
       }
     },
@@ -236,7 +257,26 @@ export default {
       } else {
         this.$toasted.show('moduleにlikeするにはサインインが必要です。', { duration: 2000 });
       }
-    }
+    },
+    toggleDone() {
+      if (this.currentUser) {
+        if (this.isDone) {
+          db.collection('items')
+            .doc(this.$route.params.id)
+            .update({
+              dones: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid),
+            });
+        } else {
+          db.collection('items')
+            .doc(this.$route.params.id)
+            .update({
+              dones: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid),
+            });
+        }
+      } else {
+        this.$toasted.show('moduleをmark as doneするにはサインインが必要です。', { duration: 2000 });
+      }
+    },
   },
 };
 </script>
@@ -253,6 +293,10 @@ export default {
   border-bottom-right-radius 5px
   z-index 10
   padding 0 0 10px
+  .check-btn
+    position fixed
+    top 270px
+    left 70px
   .tool
     padding 18px 20px
     display block
@@ -264,11 +308,14 @@ export default {
       width 100%
       margin 0 auto
       left 0
-      bottom 5px
-      font-size .8rem
+      top 43px
+      font-size .7rem
+      line-height .7rem
       font-weight bold
   .isLiked
     color #ff0090
+  .isDone
+    color #228B22
 .thumbnail
   width 104%
   margin-left -2%
@@ -365,7 +412,7 @@ nav
   p
     padding 5px 10px
 .body
-  max-width 500px
+  max-width 600px
   width 95%
   margin 50px auto
   font-size 1rem
