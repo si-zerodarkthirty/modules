@@ -136,6 +136,7 @@ input:focus, textarea:focus
     line-height 1.4rem
     overflow scroll
     max-height 400px
+    font-family "Lucida Console", Monaco, monospace
   h3
     margin-top 50px
     padding-bottom 10px
@@ -147,6 +148,15 @@ input:focus, textarea:focus
     width 100%
     box-shadow 0 0 10px rgba(0,0,0,.1)
     border-radius 3px
+  table
+    margin 20px auto
+    border-collapse collapse
+    font-size .9rem
+    th
+      border-bottom 3px solid #2c3e50
+      padding 5px 10px
+    td
+      padding 5px 10px
 .page-nav
   margin 20px 0
   width fit-content

@@ -335,7 +335,7 @@ export default {
 .thumbnail
   width 104%
   margin-left -2%
-  height 400px
+  height 450px
   margin-top -100px
   text-align justify
   background-size cover
