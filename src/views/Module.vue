@@ -15,6 +15,7 @@
         class="tool"
         @click="toggleDone"
         :class="{isDone: isDone}"
+        v-if="currentUser && currentUser.uid === $route.params.uid"
       >
         <fa
           icon="check"
@@ -32,13 +33,27 @@
       </a>
       <button
         class="tool"
-        v-if="moduleItem.price"
+        v-if="moduleItem.price > 0"
+        @click="checkout"
       >
         <fa
           icon="cart-plus"
         />
         <span>¥{{moduleItem.price}}</span>
       </button>
+      <vue-stripe-checkout
+        ref="checkoutRef"
+        image="https://i.imgur.com/HhqxVCW.jpg"
+        name="moduleを購入する"
+        :description="moduleItem.title"
+        currency="JPY"
+        :amount="moduleItem.price"
+        :allow-remember-me="true"
+        @done="done"
+        @opened="opened"
+        @closed="closed"
+        @canceled="canceled"
+      ></vue-stripe-checkout>
     </div>
     <div
       class="thumbnail"
@@ -168,7 +183,7 @@ export default {
   components: {
     UserData,
     Keywords,
-    MiniItem,
+    MiniItem
   },
   data() {
     return {
@@ -230,6 +245,11 @@ export default {
     });
   },
   methods: {
+    async checkout () {
+      const { token, args } = await this.$refs.checkoutRef.open();
+    },
+    done ({token, args}) {
+    },
     deleteItem() {
       if (window.confirm(`「${this.moduleItem.title}」を削除します。よろしいですか？`)) {
         db.collection('items').doc(this.$route.params.id)
@@ -255,26 +275,22 @@ export default {
             });
         }
       } else {
-        this.$toasted.show('moduleにlikeするにはサインインが必要です。', { duration: 2000 });
+        this.$toasted.show('likeするにはサインインが必要です。', { duration: 2000 });
       }
     },
     toggleDone() {
-      if (this.currentUser) {
-        if (this.isDone) {
-          db.collection('items')
-            .doc(this.$route.params.id)
-            .update({
-              dones: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid),
-            });
-        } else {
-          db.collection('items')
-            .doc(this.$route.params.id)
-            .update({
-              dones: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid),
-            });
-        }
+      if (this.isDone) {
+        db.collection('items')
+          .doc(this.$route.params.id)
+          .update({
+            dones: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid),
+          });
       } else {
-        this.$toasted.show('moduleをmark as doneするにはサインインが必要です。', { duration: 2000 });
+        db.collection('items')
+          .doc(this.$route.params.id)
+          .update({
+            dones: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid),
+          });
       }
     },
   },
@@ -291,7 +307,7 @@ export default {
   box-shadow 0 0 10px rgba(0,0,0,.2)
   border-top-right-radius 5px
   border-bottom-right-radius 5px
-  z-index 10
+  z-index 100
   padding 0 0 10px
   .check-btn
     position fixed
@@ -412,19 +428,6 @@ nav
   p
     padding 5px 10px
 .body
-  max-width 600px
-  width 95%
-  margin 50px auto
-  font-size 1rem
-  line-height 1.8rem
-  .description
-    border 5px solid #2c3e50
-    padding 3px 18px
-    font-size .9rem
-    font-weight bold
-    margin-bottom 50px
-  .content
-    padding-bottom 50px
   .next
     border-top 1px solid #eee
     border-bottom 1px solid #eee
@@ -433,4 +436,13 @@ nav
     h3
       text-align center
       font-size 1.5rem
+@media(max-width: 768px)
+  .tools
+    top auto 
+    bottom 30px
+  .thumbnail
+    .texts
+      width 90%
+      margin-left -45%
+      top 80px
 </style>

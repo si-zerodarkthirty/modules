@@ -34,7 +34,7 @@
       :date="data.updatedAt"
     />
     <p
-      v-if="data.price"
+      v-if="data.price > 0"
       class="price"
     >¥ {{ data.price }}</p>
     <p
@@ -160,4 +160,7 @@ export default {
     bottom 0
     width 100%
     font-weight bold
+@media (max-width: 768px)
+  .item
+    width 95%
 </style>

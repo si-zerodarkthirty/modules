@@ -2,13 +2,37 @@
   <header>
     <div class="flex">
       <router-link to="/">
-        <p class="title">
-          <fa class="logo" icon="puzzle-piece" />
-          modules.
-        </p>
+        <h1 class="title flex">
+          <img 
+            src="../assets/logo.png" 
+            alt="modules-logo"
+            class="logo"
+          >
+          <p>modules.</p>
+        </h1>
+      </router-link>
+    </div>
+    <nav class="flex">
+      <router-link to="/create">
+        <button class="create-btn">
+          <fa
+            icon="puzzle-piece"
+          />
+          <span>new module</span>
+        </button>
       </router-link>
       <button
-        class="img-btn signin-btn">
+        class="create-btn"
+        :class="{selected: isVisible}"
+        @click="isVisible = !isVisible"
+      >
+        <fa
+          icon="layer-group"
+        />
+        <span>new tutorial</span>
+      </button>
+      <button
+        class="img-btn">
         <div
           v-if="currentUser"
           class="img"
@@ -20,26 +44,6 @@
           icon="user"
           @click="signIn"
         />
-      </button>
-    </div>
-    <nav class="flex">
-      <router-link to="/create">
-        <button class="create-btn">
-          <fa
-            icon="puzzle-piece"
-          />
-          new module
-        </button>
-      </router-link>
-      <button
-        class="create-btn"
-        :class="{selected: isVisible}"
-        @click="isVisible = !isVisible"
-      >
-        <fa
-          icon="layer-group"
-        />
-        new tutorial
       </button>
     </nav>
     <div
@@ -164,20 +168,27 @@ header
   z-index 100
   .title
     margin 0
-    font-size 1.4rem
     font-weight bold
+    p
+      margin 3px 0 0 5px
+      font-size 1.2rem
+    img
+      width 2rem
+      height 2rem
   button
     margin-left 5px
-  .signin-btn
-    margin-top -10px
+  .img-btn
+    padding 0
   .create-btn
     background #eee
-    padding 10px
+    padding 10px 12px
     border-radius 5px
     font-weight bold
     &:hover
       background #2c3e50
       color white
+    span
+      margin-left 5px
   .selected
     background #2c3e50
     color white
@@ -215,4 +226,8 @@ header
       font-weight bold
       height 40px
       line-height 40px
+@media (max-width: 768px)
+  .create-btn
+    span
+      display none
 </style>

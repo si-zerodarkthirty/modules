@@ -26,8 +26,10 @@
     "vue": "^2.6.10",
     "vue-date-fns": "^1.1.0",
     "vue-disqus": "^3.0.5",
+    "vue-head": "^2.1.1",
     "vue-router": "^3.0.3",
     "vue-spinner": "^1.0.3",
+    "vue-stripe-checkout": "^1.2.6",
     "vue-toasted": "^1.1.27",
     "vue2-filters": "^0.6.0",
     "vuefire": "^2.0.0"

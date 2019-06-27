@@ -39,6 +39,8 @@ import Clipboard from 'v-clipboard';
 
 import VueDisqus from 'vue-disqus';
 
+import VueStripeCheckout from 'vue-stripe-checkout'
+
 import App from './App.vue';
 import router from './router';
 
@@ -80,6 +82,7 @@ Vue.use(VueDateFns);
 Vue.use(Toasted);
 Vue.use(Clipboard);
 Vue.use(VueDisqus);
+Vue.use(VueStripeCheckout, 'pk_test_Az1BM6sYdtvBVK1Y19BwjczS')
 
 Vue.config.productionTip = false;
 new Vue({

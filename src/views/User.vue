@@ -29,7 +29,7 @@
         <p>created {{ createdItems.length }} modules</p>
       </div>
     </div>
-    <nav>
+    <nav class="page-nav">
       <button
         :class="{active:activeTab == 'created'}"
         @click="activeTab = 'created'"
@@ -54,7 +54,7 @@
       >Log Out</button>
     </nav>
     <div class="tab-content" v-if="activeTab == 'created'">
-      <nav>
+      <nav class="page-nav">
         <button
           @click="moduleIsVisible = true"
           :class="{active: moduleIsVisible}"
@@ -80,7 +80,7 @@
       </div>
     </div>
     <div v-if="activeTab == 'liked'" class="tab-content">
-      <nav>
+      <nav class="page-nav">
         <button
           @click="moduleIsVisible = true"
           :class="{active: moduleIsVisible}"
@@ -247,16 +247,6 @@ export default {
       margin 0
     p
       margin 0
-nav
-  margin 20px 0
-  width fit-content
-  button
-    padding 10px 0
-    width 70px
-    border-bottom 3px solid #eee
-  .active
-    border-bottom 3px solid #2c3e50
-    font-weight bold
 .tab-content
   nav
     margin 20px auto

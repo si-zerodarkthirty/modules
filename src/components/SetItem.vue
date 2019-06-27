@@ -71,7 +71,7 @@ export default {
 
 <style lang="stylus" scoped>
 .set-item
-  padding 8px
+  padding 10px
   font-weight bold
   position relative
   border-top 1px solid #eee

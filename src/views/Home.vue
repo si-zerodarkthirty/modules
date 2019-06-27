@@ -15,7 +15,7 @@
       />
     </div>
     <div v-if="moduleIsVisible">
-      <h2 class="title">find modules</h2>
+      <h1 class="title">find modules</h1>
       <p class="sub-title">好きなモジュールを組み合わせて、あなた専用のチュートリアルを作ることができます。</p>
       <div class="filters">
         <input
@@ -62,7 +62,7 @@
       </div>
     </div>
     <div v-else>
-      <h2 class="title">find tutorials</h2>
+      <h1 class="title">find tutorials</h1>
       <p class="sub-title">他の人が組み立てたチュートリアルにしたがって学習することができます。</p>
       <div class="filters">
         <input

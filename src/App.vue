@@ -108,10 +108,10 @@ input:focus, textarea:focus
   cursor pointer
   background transparent
   .img
-    width 30px
-    height 30px
+    width 38px
+    height 38px
     background-size cover
-    border-radius 50%
+    border-radius 5px
   &:focus
     outline none
 .view
@@ -147,4 +147,27 @@ input:focus, textarea:focus
     width 100%
     box-shadow 0 0 10px rgba(0,0,0,.1)
     border-radius 3px
+.page-nav
+  margin 20px 0
+  width fit-content
+  button
+    padding 10px 0
+    width 70px
+    border-bottom 3px solid #eee
+  .active
+    border-bottom 3px solid #2c3e50
+    font-weight bold
+.body
+  max-width 600px
+  width 95%
+  margin 50px auto
+  font-size 1rem
+  line-height 1.8rem
+  .description
+    border 5px solid #2c3e50
+    padding 3px 18px
+    font-size .9rem
+    font-weight bold
+    margin-bottom 50px
 </style>
+

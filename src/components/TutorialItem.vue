@@ -10,12 +10,12 @@
       />
       <p>{{data.likes.length}}</p>
     </div>
-    <router-link :to="'/tutorial/'+data.user+'/'+data.id">
-      <h2>
+    <h2>
+      <router-link :to="'/tutorial/'+data.user+'/'+data.id">
         {{ data.name }}
-        <span>{{data.modules.length}} modules</span>
-      </h2>
-    </router-link>
+      </router-link>  
+      <span>{{data.modules.length}} modules</span>
+    </h2> 
     <div class="modules">
       <SetItem
         v-for="(itemId,idx) in data.modules"
@@ -90,15 +90,15 @@ export default {
 .tutorial-item
   box-shadow 0 0 10px rgba(0,0,0,.1)
   border-radius 5px
-  width 360px
-  min-width 360px
+  width 380px
+  min-width 380px
   margin 10px
   overflow hidden
   position relative
   .like-icon
     position absolute
-    top 6px
-    right 10px
+    top 10px
+    right 15px
     z-index 10
     color white
     text-align center
@@ -112,7 +112,7 @@ export default {
   h2
     font-size 1rem
     margin 0
-    padding 10px 25px 10px 15px
+    padding 15px
     background #2c3e50
     color white
     span
@@ -120,11 +120,11 @@ export default {
       display inline-block
       background white
       color #2c3e50
-      padding 0 10px
+      padding 0 12px
       height 20px
       line-height 20px
       border-radius 10px
-      margin 5px 0 0
+      margin 0
   .user
     justify-content center
 </style>
