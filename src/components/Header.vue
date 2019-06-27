@@ -13,7 +13,10 @@
       </router-link>
     </div>
     <nav class="flex">
-      <router-link to="/create">
+      <router-link 
+        v-if="currentUser" 
+        to="/create"
+      >
         <button class="create-btn">
           <fa
             icon="puzzle-piece"
@@ -22,6 +25,7 @@
         </button>
       </router-link>
       <button
+        v-if="currentUser"
         class="create-btn"
         :class="{selected: isVisible}"
         @click="isVisible = !isVisible"
