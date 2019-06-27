@@ -3,6 +3,7 @@
   "name": "modules",
   "alias": "modules.shusukeioku.now.sh",
   "builds": [{ "src": "package.json", "use": "@now/static-build" }],
+  "regions": ["hnd1"],
   "routes": [
     { "handle": "filesystem" },
     { "src": "^/js/(.*)", "dest": "/js/$1" },
