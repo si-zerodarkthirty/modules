@@ -37,7 +37,7 @@
       name="title"
       v-model="title"
     >
-    <div class="flex">
+    <div class="flex image-input">
       <div>
         <label for="thumbnail">
           image URL
@@ -84,7 +84,7 @@
       </li>
     </ul>
     <label for="dependency">
-      dependency
+      previous module
       <div class="info">別のmoduleの内容を前提にしたい場合は、そのmoduleのIDを登録してください。</div>
     </label>
     <input
@@ -106,8 +106,12 @@
     <label for="description">
       module description
       <div class="info">Markdownで編集できます。</div>
+      <button class="sp" @click="isEdit = !isEdit">
+        <span v-if="isEdit">preview</span>
+        <span v-else>edit</span>
+      </button>
     </label>
-    <div class="flex content">
+    <div class="flex md-editor pc">
       <textarea
         type="text"
         name="description"
@@ -118,11 +122,28 @@
         v-html="md.render(description)"
       ></div>
     </div>
+    <div class="md-editor sp">
+      <textarea
+        type="text"
+        name="description"
+        v-model="description"
+        v-if="isEdit"
+      ></textarea>
+      <div
+        class="view"
+        v-html="md.render(description)"
+        v-else
+      ></div>
+    </div>
     <label for="content">
       module content
       <div class="info">Markdownで編集できます。</div>
+      <button class="sp" @click="isEdit = !isEdit">
+        <span v-if="isEdit">preview</span>
+        <span v-else>edit</span>
+      </button>
     </label>
-    <div class="flex content">
+    <div class="flex md-editor pc">
       <textarea
         type="text"
         name="content"
@@ -131,6 +152,19 @@
       <div
         class="view"
         v-html="md.render(content)"
+      ></div>
+    </div>
+    <div class="md-editor sp">
+      <textarea
+        type="text"
+        name="content"
+        v-model="content"
+        v-if="isEdit"
+      ></textarea>
+      <div
+        class="view"
+        v-html="md.render(content)"
+        v-else
       ></div>
     </div>
   </div>
@@ -148,6 +182,7 @@ import katex from '@iktakahiro/markdown-it-katex';
 export default {
   data() {
     return {
+      isEdit: true,
       currentUser: {},
       inputId: '',
       gotItem: {},
@@ -155,7 +190,7 @@ export default {
       price: 0,
       title: '',
       thumbnail: '',
-      description: '### このモジュールの目標\nこのモジュールの目標は、ブラウザにHelloWorldページを表示させ、簡単なデザインを加えることです。このモジュールをクリアすることで、HTML, CSSの基礎を習得できます。\n### 前提知識\n- HTML, CSSの概要について知っていること。\n### 完成イメージ\n![helloworld_page](https://i.ibb.co/TwMPHNN/download.png)',
+      description: '### このモジュールの目標\n\nこのモジュールの目標は、ブラウザにHelloWorldページを表示させ、簡単なデザインを加えることです。このモジュールをクリアすることで、HTML, CSSの基礎を習得できます。\n\n### 前提知識\n\n- HTML, CSSの概要について知っていること。\n\n### 完成イメージ\n\n![helloworld_page](https://i.ibb.co/TwMPHNN/download.png)',
       keywords: [],
       content: '### 見出しはh3（#３つ）から始めてください。',
       keyword: '',
@@ -226,16 +261,20 @@ export default {
 };
 </script>
 
-
 <style lang="stylus">
 .editor
   label
     display block
     font-size 1rem
     font-weight bold
-    margin 30px 0 0
+    margin 30px 0 10px
     position relative
     cursor pointer
+    button
+      background #2c3e50
+      color white
+      padding 5px 10px
+      border-radius 5px
     .info
       position absolute
       top 25px
@@ -251,37 +290,12 @@ export default {
     &:hover
       .info
         display block
-  input, textarea
-    display block
-    border none
-    margin 10px 0
-    padding 0 2%
-    width 96%
-    font-size 1rem
-  input
-    height 45px
-    line-height 45px
-    border-radius 5px
-    background #eee
   .price, .keywords, .dependency
     width 200px
   .thumbnail
     width 250px
-  .content
-    height 400px
-    width 104%
-    margin 10px 0 0 -2%
-    border-top 3px solid #eee
-    border-bottom 3px solid #eee
-    textarea
-      resize none
-      background #eee
-      width 47%
-      min-width 47%
-      margin 0
-      padding 15px
-    .view
-      padding 0 15px
+  .image-input
+    flex-wrap wrap
   .add-btn
     margin 10px 0 0 0
     padding 5px 10px
@@ -307,7 +321,7 @@ export default {
     height 120px
     background-size cover
     box-shadow 0 0 5px #eee
-    margin-left 20px
+    margin 20px
     border-radius 5px
     text-align center
     line-height 120px
@@ -327,7 +341,7 @@ export default {
       background-position center
   .publish-btn
     position fixed
-    top 20px
+    bottom 20px
     left 50%
     width 200px
     margin-left -100px

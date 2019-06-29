@@ -1,7 +1,7 @@
 <template>
   <footer>
     <img 
-      src="../assets/logo.png" 
+      src="../assets/logo.svg" 
       alt="logo"
       class="logo"
     >
@@ -18,7 +18,7 @@ footer
   padding 10px 0 3px
   margin-top 50px
   .logo
-    width 50px
+    width 80px
     margin 30px 0 0
   .logo-text
     font-size 1.5rem

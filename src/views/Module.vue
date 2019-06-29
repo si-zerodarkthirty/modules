@@ -23,7 +23,7 @@
         <span v-if="isDone">done</span>
         <span v-else>mark as<br>done</span>
       </button>
-      <a :href="'https://twitter.com/intent/tweet?text=「'+moduleItem.title+'」'+'-%20modulesで学ぶ&url=https://modules.tech/module/'+moduleItem.user+'/'+moduleItem.id" target="_blank">
+      <a :href="'https://twitter.com/intent/tweet?text=「'+moduleItem.title+'」'+'-%20modulesで学ぶ&url=https://modulestore.tech/module/'+moduleItem.user+'/'+moduleItem.id" target="_blank">
         <button class="tool tweet">
           <fa
             :icon="['fab', 'twitter']"
@@ -128,12 +128,12 @@
         </div>
       </div>
       <div
-        class="description"
+        class="description view"
         v-html="md.render(moduleItem.description)"
       >
       </div>
       <div
-        class="content"
+        class="content view"
         v-html="md.render(moduleItem.content)"
       ></div>
       <div v-if="dependents && dependents.length > 0" class="next">
@@ -149,7 +149,7 @@
       <vue-disqus
         shortname="modules-1"
         :identifier="moduleItem.id"
-        :url="'https://modules.com/'+moduleItem.user+'/'+moduleItem.id"
+        :url="'https://modulestore.com/'+moduleItem.user+'/'+moduleItem.id"
       ></vue-disqus>
     </div>
   </div>
@@ -370,12 +370,13 @@ export default {
     top 45px
     right 10px
     background white
-    box-shadow 0 0 10px #eee
+    box-shadow 0 0 10px rgba(0,0,0,.2)
     border-radius 5px
     p
       margin 0
-      font-size .7rem
-      padding 5px 15px
+      font-size .8rem
+      font-weight bold
+      padding 8px 16px
       cursor pointer
       &:hover
         background #eee
@@ -393,7 +394,8 @@ export default {
     box-shadow 0 0 10px rgba(0,0,0,.2)
     overflow hidden
     h1
-      font-size 1rem
+      font-size 1.2rem
+      line-height 1.8rem
       margin 10px 20px
     .user
       margin 20px 0 0 15px

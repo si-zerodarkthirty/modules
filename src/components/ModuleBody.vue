@@ -10,11 +10,11 @@
     </div>
     <div class="body">
       <div 
-        class="description"
+        class="description view"
         v-html="md.render(data.description)"
       ></div>
       <div 
-        class="content"
+        class="content view"
         v-html="md.render(data.content)"
       ></div>
     </div>

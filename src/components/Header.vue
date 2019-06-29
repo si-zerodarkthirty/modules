@@ -4,7 +4,7 @@
       <router-link to="/">
         <h1 class="title flex">
           <img 
-            src="../assets/logo.png" 
+            src="../assets/logo.svg" 
             alt="modules-logo"
             class="logo"
           >
@@ -69,19 +69,24 @@
         @keypress.enter="setItem"
         class="input-id"
       >
+      <button
+        class="cancel-btn"
+        v-if="setItems.length > 0"
+        @click="cancelItems"
+      >
+        cancel all
+      </button>
       <SetItem
         v-for="(itemId,idx) in setItems"
         :key="idx"
         :id="itemId"
         :index="idx"
-        @remove="removeItem(idx)"
-        isEdit=true
       />
       <button
         class="create-tutorial"
         @click="createTutorial"
       >
-        Create Tutorial
+        create tutorial
       </button>
     </div>
 
@@ -128,13 +133,18 @@ export default {
       }, { merge: true });
     },
     setItem() {
-      this.setItems.push(this.itemId)
-        .then(
-          this.itemId = '',
-        );
+      db.collection("items").doc(this.itemId)
+      .get()
+      .then(item => {
+        if(item.exists) {
+          this.setItems.push(this.itemId)
+        } else {
+          this.$toasted.show('IDが間違っています。', { duration: 2000 })
+        }
+      })
     },
-    removeItem(i) {
-      this.setItems.splice(i, 1);
+    cancelItems() {
+      this.setItems = []
     },
     createTutorial() {
       if (this.setItems.length > 1) {
@@ -145,6 +155,8 @@ export default {
           name: this.tutorialName,
           createdAt: date,
           likes,
+          intro,
+          thumbnail
         }).then((item) => {
           this.$toasted.show('tutorialが公開されました！', { duration: 2000 }),
           this.$router.push(`/tutorial/${this.currentUser.uid}/${item.id}`),
@@ -211,6 +223,8 @@ header
       border none
       font-weight bold
       line-height 2rem
+      background white
+      border-radius 0
     .input-name
       font-size 1.2rem
       padding 3px 8px
@@ -218,6 +232,14 @@ header
       background #eee
       border none
       font-size .8rem
+    .cancel-btn,
+      text-align center
+      width 100%
+      padding 0
+      margin 0
+      font-weight bold
+      height 40px
+      line-height 40px
     .create-tutorial
       background #2c3e50
       color white

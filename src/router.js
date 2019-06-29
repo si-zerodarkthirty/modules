@@ -6,6 +6,7 @@ import Module from './views/Module';
 import User from './views/User';
 import Update from './views/Update';
 import Tutorial from './views/Tutorial';
+import UpdateTutorial from './views/UpdateTutorial';
 
 Vue.use(Router);
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/tutorial/:uid/:id',
       name: 'tutorial',
       component: Tutorial,
+    },
+    {
+      path: '/update-tutorial/:uid/:id',
+      name: 'update-tutorial',
+      component: UpdateTutorial,
     },
     {
       path: '/user/:uid',

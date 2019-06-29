@@ -93,6 +93,19 @@ button
     outline none
 input, textarea
   font-family 'Quicksand', 'Yu Gothic', 'YuGothic', sans-serif
+  display block
+  border none
+  margin 0
+  padding 0 2%
+  width 96%
+  font-size 1rem
+textarea
+  padding 20px 2%
+input
+  height 45px
+  line-height 45px
+  border-radius 5px
+  background #eee
 input:focus, textarea:focus
   outline none
 .flex
@@ -114,9 +127,30 @@ input:focus, textarea:focus
     border-radius 5px
   &:focus
     outline none
-.view
+.md-editor
+  height 400px
+  width 104%
+  margin 10px 0 0 -2%
+  border-top 3px solid #eee
+  border-bottom 3px solid #eee
+  textarea
+    resize none
+    background #eee
+    width 46%
+    min-width 46%
+    margin 0
+  .view
+    padding 0 15px
+    overflow-y scroll
+    min-width 47%
+.md-editor.sp
+  height 300px
   overflow-y scroll
-.content, .view
+  textarea
+    width 96%
+    height 300px
+    padding 0 2%
+.view
   .table-of-contents
     li
       font-size .9rem
@@ -146,12 +180,12 @@ input:focus, textarea:focus
     font-weight bold
   img
     width 100%
-    box-shadow 0 0 10px rgba(0,0,0,.1)
+    box-shadow 0 0 10px rgba(0,0,0,.2)
     border-radius 3px
   table
     margin 20px auto
     border-collapse collapse
-    font-size .9rem
+    font-size .85rem
     th
       border-bottom 3px solid #2c3e50
       padding 5px 10px
@@ -160,9 +194,10 @@ input:focus, textarea:focus
 .page-nav
   margin 20px 0
   width fit-content
+  background rgba(255,255,255,.8)
   button
     padding 10px 0
-    width 70px
+    width 75px
     border-bottom 3px solid #eee
   .active
     border-bottom 3px solid #2c3e50
@@ -179,5 +214,12 @@ input:focus, textarea:focus
     font-size .9rem
     font-weight bold
     margin-bottom 50px
+.sp
+  display none
+@media (max-width: 768px)
+  .sp
+    display inline-block
+  .pc
+    display none
 </style>
 

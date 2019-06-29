@@ -18,16 +18,9 @@
       </router-link>
       <p class="title">{{ data.title }}</p>
     </div>
-    <button
-      v-if="isEdit"
-      class="remove-btn"
-      @click="removeItem"
-    >
-      <fa
-        icon="times"
-      />
-    </button>
-    <div class="index">{{index + 1}}</div>
+    <div class="flex">
+      <div class="index">{{index + 1}}</div>
+    </div>
   </div>
 </template>
 
@@ -35,7 +28,7 @@
 import { auth, db } from '@/main';
 
 export default {
-  props: ['id', 'index', 'isEdit'],
+  props: ['id', 'index'],
   data() {
     return {
       data: {},
@@ -62,10 +55,10 @@ export default {
     };
   },
   methods: {
-    removeItem() {
-      this.$emit('remove');
-    },
-  },
+    remove() {
+      this.$emit('removeItem',this.$props.id)
+    }
+  }
 };
 </script>
 
@@ -76,15 +69,6 @@ export default {
   position relative
   border-top 1px solid #eee
   justify-content space-between
-  .remove-btn
-    position absolute
-    top 0
-    left 0
-    bottom 0
-    width 100%
-    display none
-    background rgba(255,255,255,.8)
-    padding 0
   .thumbnail
     width 30px
     height 30px
@@ -123,9 +107,6 @@ export default {
     margin 0 0 0 5px
     font-size .8rem
     line-height 1rem
-  &:hover
-    .remove-btn
-      display block
   &:first-child
     border none
 </style>

@@ -104,8 +104,12 @@
     <label for="description">
       module description
       <div class="info">目標, ターゲット, 前提知識を記入してください。</div>
+      <button class="sp" @click="isEdit = !isEdit">
+        <span v-if="isEdit">preview</span>
+        <span v-else>edit</span>
+      </button>
     </label>
-    <div class="flex content">
+    <div class="flex md-editor pc">
       <textarea
         type="text"
         name="description"
@@ -117,11 +121,28 @@
         v-html="md.render(skill.description)"
       ></div>
     </div>
+    <div class="md-editor sp">
+      <textarea
+        type="text"
+        name="description"
+        v-model="skill.description"
+        v-if="isEdit"
+      ></textarea>
+      <div
+        class="view"
+        v-html="md.render(skill.description)"
+        v-else
+      ></div>
+    </div>
     <label for="content">
       module content
       <div class="info">Markdownで編集できます。</div>
+      <button class="sp" @click="isEdit = !isEdit">
+        <span v-if="isEdit">preview</span>
+        <span v-else>edit</span>
+      </button>
     </label>
-    <div class="flex content">
+    <div class="flex md-editor pc">
       <textarea
         type="text"
         name="content"
@@ -130,6 +151,19 @@
       <div
         class="view"
         v-html="md.render(skill.content)"
+      ></div>
+    </div>
+    <div class="md-editor sp">
+      <textarea
+        type="text"
+        name="content"
+        v-model="skill.content"
+        v-if="isEdit"
+      ></textarea>
+      <div
+        class="view"
+        v-html="md.render(skill.content)"
+        v-else
       ></div>
     </div>
   </div>
@@ -147,6 +181,7 @@ import katex from '@iktakahiro/markdown-it-katex';
 export default {
   data() {
     return {
+      isEdit: true,
       skill: {},
       gotItem: {},
       gotItemId: '',
