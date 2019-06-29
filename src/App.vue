@@ -168,7 +168,7 @@ input:focus, textarea:focus
     border-bottom 3px solid #2c3e50
     font-weight bold
 .body
-  max-width 600px
+  max-width 550px
   width 95%
   margin 50px auto
   font-size 1rem

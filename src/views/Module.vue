@@ -101,19 +101,8 @@
       </div>
     </div>
     <div class="body">
-      <div class="dependencies">
-        <nav>
-          <button
-            @click="prevIsVisible = true"
-            :class="{active: prevIsVisible}"
-            >previous
-          </button>
-          <button
-            @click="prevIsVisible = false"
-            :class="{active: !prevIsVisible}"
-            >nexts
-          </button>
-        </nav>
+      <div class="dependency">
+        <p class="title">previous module</p>
         <div v-if="prevIsVisible"
              class="mini-list">
           <MiniItem
@@ -148,7 +137,7 @@
         v-html="md.render(moduleItem.content)"
       ></div>
       <div v-if="dependents && dependents.length > 0" class="next">
-        <h3>next modules</h3>
+        <p class="title">next modules</p>
         <div class="mini-list">
           <MiniItem
             v-for="item in dependents"
@@ -408,34 +397,26 @@ export default {
       margin 10px 20px
     .user
       margin 20px 0 0 15px
-nav
-  button
+.dependency, .next
+  .title
     border 3px solid #2c3e50
+    width fit-content
     padding 0 10px
     border-radius 18px
-    height 36px
+    height 30px
     line-height 30px
-    margin-right 5px
+    margin 50px auto 0
     font-weight bold
-  .active
+    font-size .9rem
     background #2c3e50
     color white
-.mini-list
-  box-shadow 0 0 10px rgba(0,0,0,.1)
-  border-radius 5px
-  margin 10px 0
-  font-weight bold
-  p
-    padding 5px 10px
-.body
-  .next
-    border-top 1px solid #eee
-    border-bottom 1px solid #eee
-    padding-bottom 50px
-    margin-bottom 50px
-    h3
-      text-align center
-      font-size 1.5rem
+  .mini-list
+    box-shadow 0 0 10px rgba(0,0,0,.1)
+    border-radius 5px
+    margin 10px 0
+    font-weight bold
+    p
+      padding 5px 10px
 @media(max-width: 768px)
   .tools
     top auto 

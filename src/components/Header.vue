@@ -203,11 +203,8 @@ header
     background white
     box-shadow 0 0 10px rgba(0,0,0,.1)
     border-radius 5px
-    width 250px
+    width 320px
     overflow hidden
-    .title
-      font-size 1rem
-      padding 10px
     input
       width 96%
       padding 0 2%
@@ -215,7 +212,8 @@ header
       font-weight bold
       line-height 2rem
     .input-name
-      font-size 1rem
+      font-size 1.2rem
+      padding 3px 8px
     .input-id
       background #eee
       border none
@@ -231,7 +229,10 @@ header
       height 40px
       line-height 40px
 @media (max-width: 768px)
-  .create-btn
-    span
-      display none
+  header
+    .create-btn
+      span
+        display none
+    .set-box
+      width 60%
 </style>

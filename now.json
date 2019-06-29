@@ -1,7 +1,10 @@
 {
   "version": 2,
   "name": "modules",
-  "alias": "modules.shusukeioku.now.sh",
+  "alias": [
+    "modulestore.tech",
+    "modules.shusukeioku.now.sh"
+  ],
   "builds": [{ "src": "package.json", "use": "@now/static-build" }],
   "regions": ["hnd1"],
   "routes": [

@@ -127,4 +127,7 @@ export default {
       margin 0
   .user
     justify-content center
+@media (max-width: 768px)
+  .item
+    width 95%
 </style>

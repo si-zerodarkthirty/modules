@@ -18,7 +18,7 @@ footer
   padding 10px 0 3px
   margin-top 50px
   .logo
-    width 100px
+    width 50px
     margin 30px 0 0
   .logo-text
     font-size 1.5rem
