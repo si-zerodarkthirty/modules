@@ -1,11 +1,8 @@
 {
   "version": 2,
   "name": "modules",
-  "alias": [
-    "modulestore.tech"
-  ],
+  "alias": "modulestore.tech",
   "builds": [{ "src": "package.json", "use": "@now/static-build" }],
-  "regions": ["hnd1"],
   "routes": [
     { "handle": "filesystem" },
     { "src": "^/js/(.*)", "dest": "/js/$1" },
