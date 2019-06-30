@@ -106,7 +106,7 @@
     </div>
     <label for="description">
       module description
-      <div class="info">目標, ターゲット, 前提知識を記入してください。</div>
+      <div class="info">目標、ターゲット、前提知識を記入してください。</div>
       <button class="sp" @click="isEdit = !isEdit">
         <span v-if="isEdit">preview</span>
         <span v-else>edit</span>
