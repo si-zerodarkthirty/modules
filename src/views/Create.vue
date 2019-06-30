@@ -258,6 +258,7 @@ export default {
           description: this.description,
           keywords: this.keywords,
           content: this.content,
+          user: this.currentUser.uid
         })
           .then((data) => {
             this.$toasted.show('moduleが公開されました！', { duration: 2000 }),
