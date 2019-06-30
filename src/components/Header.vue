@@ -65,7 +65,7 @@
       <input
         type="id"
         placeholder="paste module ID and press enter."
-        v-model="itemId"
+        v-model="inputId"
         @keypress.enter="setItem"
         class="input-id"
       >
@@ -76,12 +76,14 @@
       >
         cancel all
       </button>
-      <SetItem
-        v-for="(itemId,idx) in setItems"
-        :key="idx"
-        :id="itemId"
-        :index="idx"
-      />
+      <draggable @end="onEnd">
+        <SetItem
+          v-for="moduleItem in setItems"
+          :key="moduleItem.id"
+          :id="moduleItem.id"
+          :num="moduleItem.num"
+        />
+      </draggable>
       <button
         class="create-tutorial"
         @click="createTutorial"
@@ -97,17 +99,19 @@
 import firebase from 'firebase';
 import { db, auth } from '@/main';
 import SetItem from '@/components/SetItem';
+import draggable from 'vuedraggable';
 
 export default {
   components: {
     SetItem,
+    draggable
   },
   data() {
     return {
       currentUser: {},
       isVisible: false,
       setItems: [],
-      itemId: '',
+      inputId: '',
       tutorialName: 'my tutorial',
     };
   },
@@ -133,14 +137,18 @@ export default {
       }, { merge: true });
     },
     setItem() {
-      db.collection("items").doc(this.itemId)
+      db.collection("items").doc(this.inputId)
       .get()
       .then(item => {
         if(item.exists) {
-          this.setItems.push(this.itemId)
+          this.setItems.push({
+            id: this.inputId,
+            num: this.setItems.length + 1
+          })
         } else {
           this.$toasted.show('IDが間違っています。', { duration: 2000 })
         }
+        this.inputId = ""
       })
     },
     cancelItems() {
@@ -154,19 +162,27 @@ export default {
           modules: this.setItems,
           name: this.tutorialName,
           createdAt: date,
-          likes,
-          intro,
-          thumbnail
+          likes: [],
+          intro: "",
+          thumbnail: ""
         }).then((item) => {
           this.$toasted.show('tutorialが公開されました！', { duration: 2000 }),
           this.$router.push(`/tutorial/${this.currentUser.uid}/${item.id}`),
-          this.tutorialName = null,
-          this.setItems = null;
+          this.tutorialName = "",
+          this.setItems = []
         });
       } else {
         this.$toasted.show('2つ以上のmoduleを登録してください。', { duration: 2000 });
       }
     },
+    onEnd() {
+      const rawItems = document.getElementsByClassName("set-item");
+      const items = [].slice.call(rawItems)
+      this.setItems.forEach(moduleItem => {
+        const moduleElement = document.getElementById("item"+moduleItem.num);
+        moduleItem.num = items.indexOf(moduleElement)+1;
+      });
+    }
   },
 };
 </script>
@@ -217,6 +233,8 @@ header
     border-radius 5px
     width 320px
     overflow hidden
+    .set-item
+      cursor move
     input
       width 96%
       padding 0 2%

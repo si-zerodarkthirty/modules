@@ -54,12 +54,14 @@
       placeholder="new module ID"
       @keypress.enter="setItem"
     >
-    <SetItem
-      v-for="(itemId,idx) in tutorial.modules"
-      :key="idx"
-      :id="itemId"
-      :index="idx"
-    />
+    <draggable @end="onEnd">
+      <SetItem
+        v-for="moduleItem in orderBy(tutorial.modules, 'num')"
+        :key="moduleItem.id"
+        :id="moduleItem.id"
+        :num="moduleItem.num"
+      />
+    </draggable>
     <label for="intro">
       module description
       <div class="info">Markdownで編集できます。</div>
@@ -104,9 +106,13 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+import draggable from 'vuedraggable';
+import Vue2Filters from 'vue2-filters';
+
 export default {
   components: {
-    SetItem
+    SetItem,
+    draggable
   },
   head: {
     title: {
@@ -161,7 +167,7 @@ export default {
         db.collection("tutorials").doc(this.$route.params.id)
         .set({
           name: this.tutorial.name,
-          setItems: this.tutorial.modules,
+          modules: this.tutorial.modules,
           updatedAt: date,
           thumbnail: this.tutorial.thumbnail,
           intro: this.tutorial.intro
@@ -175,22 +181,36 @@ export default {
       }
     },
     setItem() {
+      const itemsLength = document.getElementsByClassName( "set-item" ).length
       db.collection("items").doc(this.itemId)
       .get()
       .then(item => {
         if(item.exists) {
-          this.tutorial.modules.push(this.itemId)
+          this.tutorial.modules.push({
+            id: this.itemId,
+            num: itemsLength + 1
+          })
         } else {
           this.$toasted.show('IDが間違っています。', { duration: 2000 })
         }
       })
     },
-  }
+    onEnd() {
+      const rawItems = document.getElementsByClassName("set-item");
+      const items = [].slice.call(rawItems)
+      this.tutorial.modules.forEach(moduleItem => {
+        const moduleElement = document.getElementById("item"+moduleItem.num);
+        moduleItem.num = items.indexOf(moduleElement)+1;
+      });
+    }
+  },
+  mixins: [Vue2Filters.mixin],
 }
 </script>
 
 <style lang="stylus" scoped>
 .set-item
+  cursor move
   &:first-child
       border none
 </style>

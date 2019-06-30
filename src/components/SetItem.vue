@@ -1,5 +1,8 @@
 <template>
-  <div class="set-item flex">
+  <li 
+    :id="'item'+num"
+    class="set-item flex"
+  >
     <div class="flex">
       <router-link :to="'/module/'+data.user+'/'+id">
         <div
@@ -19,16 +22,16 @@
       <p class="title">{{ data.title }}</p>
     </div>
     <div class="flex">
-      <div class="index">{{index + 1}}</div>
+      <div class="index">{{num}}</div>
     </div>
-  </div>
+  </li>
 </template>
 
 <script>
 import { auth, db } from '@/main';
 
 export default {
-  props: ['id', 'index'],
+  props: ['id', 'num'],
   data() {
     return {
       data: {},
@@ -53,11 +56,6 @@ export default {
     return {
       data: db.collection('items').doc(this.$props.id),
     };
-  },
-  methods: {
-    remove() {
-      this.$emit('removeItem',this.$props.id)
-    }
   }
 };
 </script>
@@ -69,6 +67,7 @@ export default {
   position relative
   border-top 1px solid #eee
   justify-content space-between
+  list-style none
   .thumbnail
     width 30px
     height 30px

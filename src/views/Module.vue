@@ -292,6 +292,10 @@ export default {
           });
       }
     },
+    done(){},
+    opened(){},
+    closed(){},
+    canceled(){}
   },
 };
 </script>

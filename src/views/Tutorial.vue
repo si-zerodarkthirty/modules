@@ -71,12 +71,12 @@
         Intro
       </button>
       <button 
-        v-for="(moduleId,idx) in tutorial.modules"
-        :key="idx"
-        @click="activeIdx = idx+1, getModule(moduleId)"
-        :class="{active: activeIdx == idx+1}"
+        v-for="moduleItem in orderBy(tutorial.modules, 'num')"
+        :key="moduleItem.id"
+        @click="activeIdx = moduleItem.num, getModule(moduleItem.id)"
+        :class="{active: activeIdx == moduleItem.num}"
       >
-        module {{idx + 1}}
+        module {{moduleItem.num}}
       </button>
     </nav>
     <div v-if="activeIdx == 0">
@@ -96,6 +96,8 @@
       v-else
       :data="activeModule"
       :idx="activeIdx"
+      :length="tutorial.modules.length"
+      @next="getNext"
     />
   </div>
 </template>
@@ -111,6 +113,7 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+import Vue2Filters from 'vue2-filters';
 
 export default {
   components: {
@@ -199,6 +202,18 @@ export default {
       .then(item => {
         this.activeModule = item.data()
         this.activeModuleId = item.id
+        window.scrollTo(0,300)
+      })
+    },
+    getNext() {
+      const nextModule = this.tutorial.modules.find(module => module.num == this.activeIdx + 1)
+      db.collection("items").doc(nextModule.id)
+      .get()
+      .then(item => {
+        this.activeModule = item.data()
+        this.activeModuleId = item.id
+        this.activeIdx += 1
+        window.scrollTo(0,300)
       })
     },
     deleteTutorial() {
@@ -230,7 +245,8 @@ export default {
         this.$toasted.show('likeするにはサインインが必要です。', { duration: 2000 });
       }
     },
-  }
+  },
+  mixins: [Vue2Filters.mixin],
 };
 </script>
 

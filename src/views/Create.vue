@@ -36,6 +36,7 @@
       type="text"
       name="title"
       v-model="title"
+      placeholder="title"
     >
     <div class="flex image-input">
       <div>
@@ -50,6 +51,7 @@
           name="thumbnail"
           v-model="thumbnail"
           class="thumbnail"
+          placeholder="thumbnail URL"
         >
       </div>
       <div
@@ -259,8 +261,8 @@ export default {
           keywords: this.keywords,
           content: this.content,
           user: this.currentUser.uid,
-          likes,
-          dones
+          likes: [],
+          dones: []
         })
           .then((data) => {
             this.$toasted.show('moduleが公開されました！', { duration: 2000 }),
@@ -303,6 +305,8 @@ export default {
     &:hover
       .info
         display block
+  .private
+    display inline
   .dependency
     margin-bottom 10px
   .price, .keywords, .dependency

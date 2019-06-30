@@ -17,6 +17,13 @@
         class="content view"
         v-html="md.render(data.content)"
       ></div>
+      <div 
+        v-if="idx < length"
+        class="next"
+        @click="next"
+      >
+        次のmoduleに進む
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +38,7 @@ import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
 export default {
-  props: ['data','idx'],
+  props: ['data','idx','length'],
   components: {
     UserData
   },
@@ -56,6 +63,11 @@ export default {
         .use(markdownItTocDoneRight)
         .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
     }
+  },
+  methods: {
+    next() {
+      this.$emit('next')
+    }
   }
 }
 </script>
@@ -77,5 +89,16 @@ export default {
     margin 0 auto
     font-weight bold
     font-size 1rem
+.next
+  margin 20px 0
+  width fit-content
+  background #2c3e50
+  color white
+  padding 0 10px
+  height 30px
+  line-height 30px
+  border-radius 20px
+  font-weight bold
+  cursor pointer
 </style>
 

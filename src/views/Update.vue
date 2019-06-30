@@ -273,7 +273,7 @@ export default {
           description: this.skill.description,
           content: this.skill.content,
           updatedAt: date,
-          keywords: this.keywords,
+          keywords: this.keywords
         }, { merge: true })
           .then(
             this.$toasted.show('moduleが更新されました！', { duration: 2000 }),

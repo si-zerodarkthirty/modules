@@ -18,10 +18,10 @@
     </h2> 
     <div class="modules">
       <SetItem
-        v-for="(itemId,idx) in data.modules"
-        :key="idx"
-        :id="itemId"
-        :index="idx"
+        v-for="moduleItem in orderBy(data.modules,'num')"
+        :key="moduleItem.num"
+        :id="moduleItem.id"
+        :num="moduleItem.num"
       />
     </div>
   </div>
@@ -32,6 +32,7 @@ import { db, auth } from '@/main';
 import firebase from 'firebase';
 import SetItem from '@/components/SetItem';
 import UserData from '@/components/UserData';
+import Vue2Filters from 'vue2-filters';
 
 export default {
   props: ['data'],
@@ -83,6 +84,7 @@ export default {
       }
     },
   },
+  mixins: [Vue2Filters.mixin],
 };
 </script>
 
