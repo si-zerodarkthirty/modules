@@ -1,5 +1,8 @@
 <template>
-  <div class="update-tutorial editor">
+  <div 
+    v-if="currentUser && currentUser.uid == tutorial.user"
+    class="update-tutorial editor"
+  >
     <h1>update tutorial</h1>
     <button
       class="publish-btn"
@@ -38,11 +41,11 @@
         class="thumbnail-box"
         :style="'background-image: url('+tutorial.thumbnail+');'"
       >
-        <span v-if="!thumbnail">No image is set.</span>
+        <span v-if="!tutorial.thumbnail">No image is set.</span>
       </div>
     </div>
     <label for="modules">
-      modules
+      additional modules
     </label>
     <input
       type="text"
@@ -93,7 +96,7 @@
 </template>
 
 <script>
-import { db } from "@/main"
+import { auth, db } from "@/main"
 import SetItem from "@/components/SetItem"
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
@@ -105,8 +108,19 @@ export default {
   components: {
     SetItem
   },
+  head: {
+    title: {
+      inner: 'tutorialを更新する',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
+    ]
+  },
   data() {
     return {
+      currentUser: {},
       tutorial: {},
       itemId: "",
       isEdit: true,
@@ -129,6 +143,11 @@ export default {
         .use(markdownItTocDoneRight)
         .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
     }
+  },
+  created() {
+    auth.onAuthStateChanged((user) => {
+      this.currentUser = user;
+    });
   },
   firestore() {
     return {

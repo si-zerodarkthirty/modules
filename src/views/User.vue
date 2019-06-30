@@ -113,21 +113,30 @@
       />
     </div>
     <div v-if="activeTab == 'settings'" class="editor">
-      <label for="name">name（Enterで保存）</label>
+      <label for="name">
+        name
+        <div class="info">Enterキーを押すと保存されます。</div>
+      </label>
       <input
         type="text"
         name="name"
         v-model="user.name"
         @keypress.enter="saveName"
       >
-      <label for="avatar">avatar URL（Enterで保存）</label>
+      <label for="avatar">
+        avatar URL
+        <div class="info">Enterキーを押すと保存されます。</div>
+      </label>
       <input
         type="text"
         name="avatar"
         v-model="user.avatar"
         @keypress.enter="saveAvatar"
       >
-      <label for="twitter">twitter ID（Enterで保存）</label>
+      <label for="twitter">
+        twitter ID
+        <div class="info">Enterキーを押すと保存されます。</div>
+      </label>
       <input
         type="text"
         name="twitter"
@@ -148,6 +157,18 @@ export default {
   components: {
     Item,
     TutorialItem,
+  },
+  head: {
+    title() {
+      return {
+        inner: 'ユーザーページ',
+        separator: '|',
+        complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      }
+    },
+    meta: [
+      { name: 'description', content: 'ユーザーページです。' },
+    ]
   },
   data() {
     return {
@@ -232,7 +253,7 @@ export default {
       position absolute
       bottom -5px
       right -5px
-      font-size 1rem
+      font-size .9rem
       text-align center
       color white
       background #2c3e50

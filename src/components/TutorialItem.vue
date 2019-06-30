@@ -112,7 +112,7 @@ export default {
   h2
     font-size 1rem
     margin 0
-    padding 15px
+    padding 15px 30px 15px 15px
     background #2c3e50
     color white
     span
@@ -128,6 +128,6 @@ export default {
   .user
     justify-content center
 @media (max-width: 768px)
-  .item
+  .tutorial-item
     width 95%
 </style>

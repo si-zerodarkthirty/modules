@@ -1,5 +1,8 @@
 <template>
-  <div class="editor">
+  <div 
+    v-if="currentUser && currentUser.uid === skill.user"
+    class="editor"
+  >
     <h1>edit this module</h1>
     <button
       class="publish-btn"
@@ -60,7 +63,7 @@
     </div>
     <label for="keywords">
       keyword(s)
-      <div class="info">入力してエンターキーを押すとキーワードが追加されます。</div>
+      <div class="info">入力してEnterキーを押すとキーワードが追加されます。</div>
     </label>
     <input
       type="text"
@@ -83,7 +86,7 @@
       </li>
     </ul>
     <label for="dependency">
-      dependency
+      previous module
       <div class="info">別のmoduleの内容を前提にしたい場合は、そのmoduleのIDを登録してください。</div>
     </label>
     <input
@@ -167,10 +170,13 @@
       ></div>
     </div>
   </div>
+  <div v-else>
+    Invalid User.
+  </div>
 </template>
 
 <script>
-import { db } from '@/main';
+import { auth, db } from '@/main';
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import sanitizer from 'markdown-it-sanitizer';
@@ -179,8 +185,19 @@ import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
 
 export default {
+  head: {
+    title: {
+      inner: 'moduleを更新する',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
+    ]
+  },
   data() {
     return {
+      currentUser: {},
       isEdit: true,
       skill: {},
       gotItem: {},
@@ -213,6 +230,9 @@ export default {
     };
   },
   created() {
+    auth.onAuthStateChanged((user) => {
+      this.currentUser = user;
+    });
     db.collection('items').doc(this.$route.params.id)
       .get()
       .then((item) => {

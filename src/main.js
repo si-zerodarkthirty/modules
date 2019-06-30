@@ -41,6 +41,8 @@ import VueDisqus from 'vue-disqus';
 
 import VueStripeCheckout from 'vue-stripe-checkout'
 
+import VueHead from 'vue-head'
+
 import App from './App.vue';
 import router from './router';
 
@@ -82,10 +84,11 @@ Vue.use(VueDateFns);
 Vue.use(Toasted);
 Vue.use(Clipboard);
 Vue.use(VueDisqus);
-Vue.use(VueStripeCheckout, 'pk_test_Az1BM6sYdtvBVK1Y19BwjczS')
+Vue.use(VueStripeCheckout, 'pk_test_Az1BM6sYdtvBVK1Y19BwjczS');
+Vue.use(VueHead);
 
 Vue.config.productionTip = false;
 new Vue({
   router,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app');

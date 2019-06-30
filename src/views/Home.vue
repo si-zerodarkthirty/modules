@@ -118,6 +118,16 @@ import Vue2Filters from 'vue2-filters';
 
 export default {
   name: 'home',
+  head: {
+    title: {
+      inner: 'Home',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
+    ]
+  },
   components: {
     Item,
     TutorialItem,

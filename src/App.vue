@@ -149,7 +149,7 @@ input:focus, textarea:focus
   textarea
     width 96%
     height 300px
-    padding 0 2%
+    padding 20px 2%
 .view
   .table-of-contents
     li
@@ -194,11 +194,13 @@ input:focus, textarea:focus
 .page-nav
   margin 20px 0
   width fit-content
-  background rgba(255,255,255,.8)
+  transition all .2s
+  z-index 100
   button
     padding 10px 0
     width 75px
     border-bottom 3px solid #eee
+    color #2c3e50
   .active
     border-bottom 3px solid #2c3e50
     font-weight bold
@@ -214,6 +216,9 @@ input:focus, textarea:focus
     font-size .9rem
     font-weight bold
     margin-bottom 50px
+    h3
+      margin 10px 0
+      font-size 1.2rem
 .sp
   display none
 @media (max-width: 768px)

@@ -61,7 +61,7 @@
     </div>
     <label for="keywords">
       keyword(s)
-      <div class="info">入力してエンターキーを押すとキーワードが追加されます。</div>
+      <div class="info">Enterキーを押すとキーワードが追加されます。</div>
     </label>
     <input
       type="text"
@@ -180,6 +180,16 @@ import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
 
 export default {
+  head: {
+    title: {
+      inner: '新しいmoduleをつくる',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: '新しいmoduleを作成しましょう。modulesでは、1機能・1トピック単位でチュートリアルを作成できるので、自分のちょっとしたスキルを簡単に販売できます。' },
+    ]
+  },
   data() {
     return {
       isEdit: true,
@@ -290,6 +300,8 @@ export default {
     &:hover
       .info
         display block
+  .dependency
+    margin-bottom 10px
   .price, .keywords, .dependency
     width 200px
   .thumbnail

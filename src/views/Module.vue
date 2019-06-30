@@ -149,7 +149,7 @@
       <vue-disqus
         shortname="modules-1"
         :identifier="moduleItem.id"
-        :url="'https://modulestore.com/'+moduleItem.user+'/'+moduleItem.id"
+        :url="'https://modulestore.tech/'+moduleItem.user+'/'+moduleItem.id"
       ></vue-disqus>
     </div>
   </div>
@@ -173,6 +173,16 @@ export default {
     UserData,
     Keywords,
     MiniItem
+  },
+  head: {
+    title: {
+      inner: 'module',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
+    ]
   },
   data() {
     return {
@@ -289,13 +299,9 @@ export default {
 <style lang="stylus" scoped>
 .tools
   position fixed
-  top 70px
+  top 90px
   left 0
   width 60px
-  background white
-  box-shadow 0 0 10px rgba(0,0,0,.2)
-  border-top-right-radius 5px
-  border-bottom-right-radius 5px
   z-index 100
   padding 0 0 10px
   .check-btn
@@ -326,7 +332,6 @@ export default {
   margin-left -2%
   height 450px
   margin-top -100px
-  text-align justify
   background-size cover
   background-position center
   position relative
@@ -384,7 +389,7 @@ export default {
         border-bottom 1px solid #eee
   .texts
     position absolute
-    top 120px
+    top 100px
     left 50%
     width 400px
     margin-left -200px
@@ -424,6 +429,7 @@ export default {
     top auto 
     bottom 30px
   .thumbnail
+    height 350px
     .texts
       width 90%
       margin-left -45%

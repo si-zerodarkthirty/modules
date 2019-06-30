@@ -1,5 +1,35 @@
 <template>
   <div class="tutorial">
+    <div class="tools">
+      <button
+        class="tool"
+        @click="toggleLike"
+        :class="{isLiked: isLiked}"
+      >
+        <fa
+          icon="heart"
+        />
+        <span>{{ tutorial.likes.length }}</span>
+      </button>
+      <a :href="'https://twitter.com/intent/tweet?text=「'+tutorial.name+'」'+'-%20modulesで学ぶ&url=https://modulestore.tech/tutorial/'+tutorial.user+'/'+tutorial.id" target="_blank">
+        <button class="tool tweet">
+          <fa
+            :icon="['fab', 'twitter']"
+          />
+          <span>tweet</span>
+        </button>
+      </a>
+      <button
+        v-if="activeIdx > 0"
+        class="tool"
+        @click="$router.push('/module/'+activeModule.user+'/'+activeModuleId)"
+      >
+        <fa
+          icon="puzzle-piece"
+        />
+        <span>module page</span>
+      </button>
+    </div>
     <div class="texts">
       <div
         class="menu-btn"
@@ -55,6 +85,11 @@
           class="view"
           v-html="md.render(tutorial.intro)"
         ></div>
+        <vue-disqus
+          shortname="modules-1"
+          :identifier="tutorial.id"
+          :url="'https://modulestore.tech/'+tutorial.user+'/'+tutorial.id"
+        ></vue-disqus>
       </div>
     </div>
     <ModuleBody 
@@ -67,6 +102,7 @@
 
 <script>
 import { auth, db } from '@/main';
+import firebase from 'firebase';
 import UserData from '@/components/UserData';
 import ModuleBody from '@/components/ModuleBody';
 import markdownIt from 'markdown-it';
@@ -81,8 +117,19 @@ export default {
     UserData,
     ModuleBody
   },
+  head: {
+    title: {
+      inner: 'tutorial',
+      separator: '|',
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+    },
+    meta: [
+      { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
+    ]
+  },
   data() {
     return {
+      isLiked: false,
       scrollY: 0,
       isVisible: false,
       currentUser: {},
@@ -90,6 +137,7 @@ export default {
       tutorial: {},
       activeIdx: 0,
       activeModule: {},
+      activeModuleId: "",
       md: new markdownIt({
         highlight(code, lang) {
           return hljs.highlightAuto(code, [lang]).value;
@@ -113,6 +161,16 @@ export default {
   created() {
     auth.onAuthStateChanged((user) => {
       this.currentUser = user;
+      db.collection('tutorials')
+        .doc(this.$route.params.id)
+        .onSnapshot((item) => {
+          const isLiked = item.data().likes.find(like => like == user.uid);
+          if (isLiked) {
+            this.isLiked = true;
+          } else {
+            this.isLiked = false;
+          }
+        })
     });
   },
   mounted() {
@@ -140,10 +198,11 @@ export default {
       .get()
       .then(item => {
         this.activeModule = item.data()
+        this.activeModuleId = item.id
       })
     },
     deleteTutorial() {
-      if(window.confirm('tutorialを削除してよろしいですか？')) {
+      if(window.confirm('「'+this.tutorial.name+'」を削除してよろしいですか？')) {
         db.collection("tutorials").doc(this.$route.params.id)
         .delete()
         .then(
@@ -151,13 +210,60 @@ export default {
           this.$router.push('/'),
         )
       }
-    }
+    },
+    toggleLike() {
+      if (this.currentUser) {
+        if (this.isLiked) {
+          db.collection('tutorials')
+            .doc(this.$route.params.id)
+            .update({
+              likes: firebase.firestore.FieldValue.arrayRemove(this.currentUser.uid),
+            });
+        } else {
+          db.collection('tutorials')
+            .doc(this.$route.params.id)
+            .update({
+              likes: firebase.firestore.FieldValue.arrayUnion(this.currentUser.uid),
+            });
+        }
+      } else {
+        this.$toasted.show('likeするにはサインインが必要です。', { duration: 2000 });
+      }
+    },
   }
 };
 </script>
 
 <style lang="stylus" scoped>
 .tutorial
+  .tools
+    position fixed
+    top 90px
+    left 0
+    width 60px
+    z-index 100
+    padding 0 0 10px
+    .check-btn
+      position fixed
+      top 270px
+      left 70px
+    .tool
+      padding 18px 20px
+      display block
+      margin 0 auto
+      font-size 1.2rem
+      position relative
+      span
+        position absolute
+        width 100%
+        margin 0 auto
+        left 0
+        top 43px
+        font-size .7rem
+        line-height .7rem
+        font-weight bold
+    .isLiked
+      color #ff0090
   .texts
     width 95%
     max-width 500px
