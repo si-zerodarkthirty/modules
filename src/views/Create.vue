@@ -332,6 +332,7 @@ export default {
     width 200px
     height 120px
     background-size cover
+    background-position center
     box-shadow 0 0 5px #eee
     margin 20px
     border-radius 5px
