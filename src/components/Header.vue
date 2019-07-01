@@ -64,7 +64,7 @@
       >
       <input
         type="id"
-        placeholder="paste module ID and press enter."
+        placeholder="module IDを記入しEnterキーを押すと追加されます。"
         v-model="inputId"
         @keypress.enter="setItem"
         class="input-id"
@@ -88,7 +88,7 @@
         class="create-tutorial"
         @click="createTutorial"
       >
-        create tutorial
+        publish this tutorial
       </button>
     </div>
 
@@ -152,7 +152,9 @@ export default {
       })
     },
     cancelItems() {
-      this.setItems = []
+      if(window.confirm('moduleのリストを空にしてよろしいですか？')) {
+        this.setItems = []
+      }
     },
     createTutorial() {
       if (this.setItems.length > 1) {

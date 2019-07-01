@@ -4,6 +4,7 @@
       class="keyword"
       v-for="(keyword,idx) in keywords"
       :key="idx"
+      @click="$router.push('/tag/'+keyword)"
     >
       # {{keyword}}
     </span>
@@ -29,4 +30,5 @@ export default {
     height 20px
     line-height 20px
     border-radius 20px
+    cursor pointer
 </style>

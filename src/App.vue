@@ -133,6 +133,22 @@ input:focus, textarea:focus
   margin 10px 0 0 -2%
   border-top 3px solid #eee
   border-bottom 3px solid #eee
+  .prism-editor-wrapper
+    width 50%
+    min-width 50%
+    .prism-editor__code
+      margin 0
+      height 365px
+      font-size 1.1rem
+      background #2c3e50
+      color white
+      font-weight bold
+      white-space pre-wrap
+      text-shadow none !important
+      border none
+      border-radius 0
+      &:focus
+        outline none
   textarea
     resize none
     background #eee
@@ -146,6 +162,9 @@ input:focus, textarea:focus
 .md-editor.sp
   height 300px
   overflow-y scroll
+  .prism-editor-wrapper
+    width 100%
+    min-width 100%
   textarea
     width 96%
     height 300px
@@ -162,15 +181,17 @@ input:focus, textarea:focus
     font-weight bold
   pre
     background #2c3e50
-    color white
     padding 10px 15px
     border-radius 5px
     font-weight bold
-    font-size 1.2rem
+    font-size 1rem
     line-height 1.4rem
     overflow scroll
     max-height 400px
     font-family "Lucida Console", Monaco, monospace
+    code
+      text-shadow none
+      color white
   h3
     margin-top 50px
     padding-bottom 10px
@@ -179,8 +200,8 @@ input:focus, textarea:focus
   a
     font-weight bold
   img
-    width 100%
-    box-shadow 0 0 10px rgba(0,0,0,.2)
+    width calc(100% - 6px)
+    border 3px solid #eee
     border-radius 3px
   table
     margin 20px auto
@@ -211,14 +232,14 @@ input:focus, textarea:focus
   font-size 1rem
   line-height 1.8rem
   .description
-    border 5px solid #2c3e50
+    border 5px solid #eee
     padding 3px 18px
     font-size .9rem
     font-weight bold
     margin-bottom 50px
     h3
       margin 10px 0
-      font-size 1.2rem
+      font-size 1.1rem
 .sp
   display none
 @media (max-width: 768px)

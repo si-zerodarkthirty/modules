@@ -45,7 +45,7 @@
       </div>
     </div>
     <label for="modules">
-      additional modules
+      modules
     </label>
     <input
       type="text"
@@ -63,7 +63,7 @@
       />
     </draggable>
     <label for="intro">
-      module description
+      introduction
       <div class="info">Markdownで編集できます。</div>
       <button class="sp" @click="isEdit = !isEdit">
         <span v-if="isEdit">preview</span>
@@ -71,23 +71,23 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <textarea
-        type="text"
-        name="intro"
+      <prism-editor 
+        :code="tutorial.intro" 
+        language="html"
         v-model="tutorial.intro"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(tutorial.intro)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <textarea
-        type="text"
-        name="description"
+      <prism-editor 
+        :code="tutorial.intro" 
+        language="html"
         v-model="tutorial.intro"
         v-if="isEdit"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(tutorial.intro)"
@@ -108,11 +108,13 @@ import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
 import draggable from 'vuedraggable';
 import Vue2Filters from 'vue2-filters';
+import PrismEditor from 'vue-prism-editor'
 
 export default {
   components: {
     SetItem,
-    draggable
+    draggable,
+    PrismEditor
   },
   head: {
     title: {
@@ -122,7 +124,7 @@ export default {
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
-    ]
+    ],
   },
   data() {
     return {

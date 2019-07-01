@@ -16,7 +16,7 @@
     </div>
     <div v-if="moduleIsVisible">
       <h1 class="title">find modules</h1>
-      <p class="sub-title">好きなモジュールを組み合わせて、あなた専用のチュートリアルを作ることができます。</p>
+      <p class="sub-title">好きなmoduleを組み合わせて、あなた専用のtutorialを作ることができます。</p>
       <div class="filters">
         <input
           type="text"
@@ -63,7 +63,7 @@
     </div>
     <div v-else>
       <h1 class="title">find tutorials</h1>
-      <p class="sub-title">他の人が組み立てたチュートリアルにしたがって学習することができます。</p>
+      <p class="sub-title">他の人が組み立てたtutorialにしたがって学習することができます。</p>
       <div class="filters">
         <input
           type="text"
@@ -180,9 +180,10 @@ export default {
   width 90%
   max-width 400px
   font-size .8rem
+  font-weight bold
 .filters
   width 90%
-  max-width 400px
+  max-width 450px
   margin 20px auto 50px
   font-weight bold
 .search
@@ -203,7 +204,7 @@ export default {
   padding 0 0 10px
   border-bottom 2px solid #eee
   label
-    min-width 100px
+    min-width 110px
   input
     width 100%
     margin 0 0 0 10px

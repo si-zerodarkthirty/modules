@@ -108,4 +108,6 @@ export default {
     line-height 1rem
   &:first-child
     border none
+  &:hover
+    background #eee
 </style>

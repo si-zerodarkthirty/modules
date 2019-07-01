@@ -7,6 +7,7 @@ import User from './views/User';
 import Update from './views/Update';
 import Tutorial from './views/Tutorial';
 import UpdateTutorial from './views/UpdateTutorial';
+import Tag from './views/Tag';
 
 Vue.use(Router);
 
@@ -51,6 +52,11 @@ export default new Router({
       path: '/user/:uid',
       name: 'user',
       component: User,
+    },
+    {
+      path: '/tag/:tag',
+      name: 'tag',
+      component: Tag,
     },
   ],
 });

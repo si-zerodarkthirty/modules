@@ -113,24 +113,23 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <textarea
-        type="text"
-        name="description"
-        class="description"
+      <prism-editor 
+        :code="skill.description" 
+        language="html"
         v-model="skill.description"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(skill.description)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <textarea
-        type="text"
-        name="description"
+      <prism-editor 
+        :code="skill.description" 
+        language="html"
         v-model="skill.description"
         v-if="isEdit"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(skill.description)"
@@ -146,23 +145,23 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <textarea
-        type="text"
-        name="content"
+      <prism-editor 
+        :code="skill.content" 
+        language="html"
         v-model="skill.content"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(skill.content)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <textarea
-        type="text"
-        name="content"
+      <prism-editor 
+        :code="skill.content" 
+        language="html"
         v-model="skill.content"
         v-if="isEdit"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(skill.content)"
@@ -183,6 +182,7 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+import PrismEditor from 'vue-prism-editor'
 
 export default {
   head: {
@@ -193,7 +193,10 @@ export default {
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
-    ]
+    ],
+  },
+  components: {
+    PrismEditor
   },
   data() {
     return {

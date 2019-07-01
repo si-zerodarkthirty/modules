@@ -24,9 +24,10 @@
         :style="'background-image: url('+user.photoURL+');'"
       ></div>
       <div class="texts">
-        <h2 v-if="user.name">{{ user.name }}</h2>
-        <h2 v-else>{{ user.displayName }}</h2>
-        <p>created {{ createdItems.length }} modules</p>
+        <h1 v-if="user.name">{{ user.name }}</h1>
+        <h1 v-else>{{ user.displayName }}</h1>
+        <p>完了したmodule: {{ doneItems.length }}</p>
+        <p>公開したmodule: {{ createdItems.length }}</p>
       </div>
     </div>
     <nav class="page-nav">
@@ -243,8 +244,8 @@ export default {
 <style lang="stylus" scoped>
 .user-title
   .avatar
-    height 50px
-    width 50px
+    height 80px
+    width 80px
     border-radius 50%
     background-size cover
     border 2px solid #2c3e50
@@ -264,10 +265,12 @@ export default {
       box-shadow 0 0 5px rgba(0,0,0,.5)
   .texts
     margin-left 10px
-    h2
+    h1
       margin 0
     p
       margin 0
+      font-size .8rem
+      font-weight bold
 .tab-content
   nav
     margin 20px auto

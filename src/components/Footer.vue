@@ -1,11 +1,19 @@
 <template>
   <footer>
-    <img 
-      src="../assets/logo.svg" 
-      alt="logo"
-      class="logo"
-    >
-    <p class="logo-text">modules.</p>
+    <div class="logo-wrapper">
+      <img 
+        src="../assets/logo.svg" 
+        alt="logo"
+        class="logo"
+      >
+      <p class="logo-text">modules.</p>
+    </div>
+    <!--
+    <div class="links">
+      <button>ヘルプ</button>
+      <button>サポート</button>
+    </div>
+    -->
     <p class="cr">Copyright 2019. modules. All rights Reserved.</p>
   </footer>
 </template>

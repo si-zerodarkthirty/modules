@@ -1,6 +1,6 @@
 <template>
   <div class="editor">
-    <h1>create a new module</h1>
+    <h1>create a module</h1>
     <button
       class="publish-btn"
       @click="publish"
@@ -9,7 +9,7 @@
       <fa
         icon="upload"
       />
-      upload this module
+      publish this module
     </button>
     <label for="price">
       price
@@ -114,23 +114,23 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <textarea
-        type="text"
-        name="description"
+      <prism-editor 
+        :code="description" 
+        language="html"
         v-model="description"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(description)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <textarea
-        type="text"
-        name="description"
+      <prism-editor 
+        :code="description" 
+        language="html"
         v-model="description"
         v-if="isEdit"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(description)"
@@ -140,29 +140,32 @@
     <label for="content">
       module content
       <div class="info">Markdownで編集できます。</div>
-      <button class="sp" @click="isEdit = !isEdit">
+      <button 
+        class="sp preview-btn" 
+        @click="isEdit = !isEdit"
+      >
         <span v-if="isEdit">preview</span>
         <span v-else>edit</span>
       </button>
     </label>
     <div class="flex md-editor pc">
-      <textarea
-        type="text"
-        name="content"
+      <prism-editor 
+        :code="content" 
+        language="html"
         v-model="content"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(content)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <textarea
-        type="text"
-        name="content"
+      <prism-editor 
+        :code="content" 
+        language="html"
         v-model="content"
         v-if="isEdit"
-      ></textarea>
+      ></prism-editor>
       <div
         class="view"
         v-html="md.render(content)"
@@ -180,6 +183,7 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+import PrismEditor from 'vue-prism-editor';
 
 export default {
   head: {
@@ -191,6 +195,9 @@ export default {
     meta: [
       { name: 'description', content: '新しいmoduleを作成しましょう。modulesでは、1機能・1トピック単位でチュートリアルを作成できるので、自分のちょっとしたスキルを簡単に販売できます。' },
     ]
+  },
+  components: {
+    PrismEditor
   },
   data() {
     return {
@@ -305,8 +312,6 @@ export default {
     &:hover
       .info
         display block
-  .private
-    display inline
   .dependency
     margin-bottom 10px
   .price, .keywords, .dependency
@@ -352,11 +357,14 @@ export default {
     font-size .9rem
     overflow hidden
     .result-title
-      line-height 50px
-      margin 0 10px
+      margin 10px
     .result-thumbnail
       width 50px
       height 50px
+      min-width 50px
+      min-height 50px
+      border-radius 50%
+      margin 10px
       background-size cover
       background-position center
   .publish-btn

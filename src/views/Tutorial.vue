@@ -79,7 +79,10 @@
         module {{moduleItem.num}}
       </button>
     </nav>
-    <div v-if="activeIdx == 0">
+    <div 
+      v-if="activeIdx == 0"
+      class="body-wrapper"
+    >
       <div class="body">
         <div
           class="view"
@@ -98,6 +101,7 @@
       :idx="activeIdx"
       :length="tutorial.modules.length"
       @next="getNext"
+      class="body-wrapper"
     />
   </div>
 </template>
@@ -179,6 +183,9 @@ export default {
   mounted() {
     window.addEventListener('scroll', this.handleScroll);
   },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.handleScroll);
+  },
   firestore() {
     return {
       tutorial: db.collection("tutorials").doc(this.$route.params.id),
@@ -188,11 +195,11 @@ export default {
   methods: {
     handleScroll() {
       const pageNav = document.getElementById('page-nav')
-      if(window.scrollY > 350) {
+      if(window.scrollY > 370) {
         pageNav.style.position = 'fixed'
         pageNav.style.top = '30px'
       } else {
-        pageNav.style.position = 'relative'
+        pageNav.style.position = 'absolute'
         pageNav.style.top = 'auto'
       }
     },
@@ -327,4 +334,6 @@ export default {
           background #eee
         &:first-child
           border-bottom 1px solid #eee
+  .body-wrapper
+    padding-top 50px
 </style>

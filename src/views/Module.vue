@@ -101,30 +101,15 @@
       </div>
     </div>
     <div class="body">
-      <div class="dependency">
+      <div 
+        class="dependency"
+        v-if="moduleItem.dependency"
+      >
         <p class="title">previous module</p>
-        <div v-if="prevIsVisible"
-             class="mini-list">
+        <div class="mini-list">
           <MiniItem
-            v-if="moduleItem.dependency"
             :id="moduleItem.dependency"
           />
-          <p v-else>
-            これは最初のモジュールです。
-          </p>
-        </div>
-        <div v-else
-             class="mini-list">
-          <div v-if="dependents && dependents.length > 0">
-            <MiniItem
-              v-for="item in dependents"
-              :key="item.id"
-              :id="item.id"
-            />
-          </div>
-          <p v-else>
-            これに続くモジュールはまだありません。
-          </p>
         </div>
       </div>
       <div
@@ -136,7 +121,10 @@
         class="content view"
         v-html="md.render(moduleItem.content)"
       ></div>
-      <div v-if="dependents && dependents.length > 0" class="next">
+      <div 
+        v-if="dependents && dependents.length > 0" 
+        class="next"
+      >
         <p class="title">next modules</p>
         <div class="mini-list">
           <MiniItem
@@ -192,7 +180,6 @@ export default {
       moduleItem: {},
       currentUser: {},
       dependents: {},
-      prevIsVisible: true,
       md: new markdownIt({
         highlight(code, lang) {
           return hljs.highlightAuto(code, [lang]).value;
