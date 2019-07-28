@@ -140,7 +140,7 @@ input:focus, textarea:focus
       margin 0
       height 365px
       font-size 1.1rem
-      background #2c3e50
+      background rgb(40,44,52)
       color white
       font-weight bold
       white-space pre-wrap
@@ -180,12 +180,12 @@ input:focus, textarea:focus
   code
     font-weight bold
   pre
-    background #2c3e50
+    background rgb(40,44,52)
     padding 10px 15px
     border-radius 5px
     font-weight bold
-    font-size 1rem
-    line-height 1.4rem
+    font-size .9rem
+    line-height 1.2rem
     overflow scroll
     max-height 400px
     font-family "Lucida Console", Monaco, monospace

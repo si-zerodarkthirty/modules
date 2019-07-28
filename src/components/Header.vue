@@ -64,7 +64,7 @@
       >
       <input
         type="id"
-        placeholder="module IDを記入しEnterキーを押すと追加されます。"
+        placeholder="module IDを入力しEnterキーを押すと追加されます。"
         v-model="inputId"
         @keypress.enter="setItem"
         class="input-id"
@@ -229,11 +229,12 @@ header
   .set-box
     position fixed
     top 60px
-    right 20px
+    right 10px
     background white
     box-shadow 0 0 10px rgba(0,0,0,.1)
     border-radius 5px
-    width 320px
+    width 90%
+    max-width 400px
     overflow hidden
     .set-item
       cursor move
@@ -275,6 +276,4 @@ header
     .create-btn
       span
         display none
-    .set-box
-      width 60%
 </style>

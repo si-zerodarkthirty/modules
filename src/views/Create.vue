@@ -364,6 +364,7 @@ export default {
       min-width 50px
       min-height 50px
       border-radius 50%
+      border 1px solid #eee
       margin 10px
       background-size cover
       background-position center

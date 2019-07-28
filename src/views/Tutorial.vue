@@ -195,9 +195,9 @@ export default {
   methods: {
     handleScroll() {
       const pageNav = document.getElementById('page-nav')
-      if(window.scrollY > 370) {
+      if(window.scrollY > 340) {
         pageNav.style.position = 'fixed'
-        pageNav.style.top = '30px'
+        pageNav.style.top = '60px'
       } else {
         pageNav.style.position = 'absolute'
         pageNav.style.top = 'auto'
@@ -259,6 +259,13 @@ export default {
 
 <style lang="stylus" scoped>
 .tutorial
+  .page-nav
+    flex-wrap wrap
+    width 100px
+    right 10px
+    text-align center
+    button
+      border none
   .tools
     position fixed
     top 90px

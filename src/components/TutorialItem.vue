@@ -92,8 +92,8 @@ export default {
 .tutorial-item
   box-shadow 0 0 10px rgba(0,0,0,.1)
   border-radius 5px
-  width 380px
-  min-width 380px
+  width 95%
+  max-width 380px
   margin 10px
   overflow hidden
   position relative

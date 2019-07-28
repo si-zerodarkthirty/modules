@@ -266,6 +266,15 @@ export default {
     deleteKeyword(i) {
       this.keywords.splice(i, 1);
     },
+    save() {
+      db.collection('items').doc(this.$route.params.id).set({
+        description: this.skill.description,
+        content: this.skill.content
+      }, { merge: true })
+        .then(
+          this.$toasted.show('変更を保存しました！', { duration: 1000 })
+        );
+    },
     update() {
       if (this.skill.title && this.skill.description && this.skill.keywords && this.skill.content) {
         const date = this.$date(new Date(), 'DD.MMMM.YYYY');
