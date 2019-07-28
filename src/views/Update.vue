@@ -276,8 +276,7 @@ export default {
           keywords: this.keywords,
         }, { merge: true })
           .then(
-            this.$toasted.show('moduleが更新されました！', { duration: 2000 }),
-            this.$router.push(`/module/${this.skill.user}/${this.skill.id}`),
+            this.$toasted.show('moduleが更新されました！', { duration: 2000 })
           );
       } else {
         this.$toasted.show('必要な情報を記入してください。', { duration: 2000 });
