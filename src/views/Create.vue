@@ -114,23 +114,19 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <prism-editor 
-        :code="description" 
-        language="html"
+      <textarea
         v-model="description"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(description)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <prism-editor 
-        :code="description" 
-        language="html"
+      <textarea
         v-model="description"
         v-if="isEdit"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(description)"
@@ -140,8 +136,8 @@
     <label for="content">
       module content
       <div class="info">Markdownで編集できます。</div>
-      <button 
-        class="sp preview-btn" 
+      <button
+        class="sp preview-btn"
         @click="isEdit = !isEdit"
       >
         <span v-if="isEdit">preview</span>
@@ -149,23 +145,19 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <prism-editor 
-        :code="content" 
-        language="html"
+      <textarea
         v-model="content"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(content)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <prism-editor 
-        :code="content" 
-        language="html"
+      <textarea
         v-model="content"
         v-if="isEdit"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(content)"
@@ -183,21 +175,17 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
-import PrismEditor from 'vue-prism-editor';
 
 export default {
   head: {
     title: {
       inner: '新しいmoduleをつくる',
       separator: '|',
-      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。',
     },
     meta: [
       { name: 'description', content: '新しいmoduleを作成しましょう。modulesでは、1機能・1トピック単位でチュートリアルを作成できるので、自分のちょっとしたスキルを簡単に販売できます。' },
-    ]
-  },
-  components: {
-    PrismEditor
+    ],
   },
   data() {
     return {
@@ -269,7 +257,7 @@ export default {
           content: this.content,
           user: this.currentUser.uid,
           likes: [],
-          dones: []
+          dones: [],
         })
           .then((data) => {
             this.$toasted.show('moduleが公開されました！', { duration: 2000 }),

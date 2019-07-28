@@ -1,8 +1,8 @@
 <template>
   <footer>
     <div class="logo-wrapper">
-      <img 
-        src="../assets/logo.svg" 
+      <img
+        src="../assets/logo.svg"
         alt="logo"
         class="logo"
       >

@@ -101,7 +101,7 @@
       </div>
     </div>
     <div class="body">
-      <div 
+      <div
         class="dependency"
         v-if="moduleItem.dependency"
       >
@@ -121,8 +121,8 @@
         class="content view"
         v-html="md.render(moduleItem.content)"
       ></div>
-      <div 
-        v-if="dependents && dependents.length > 0" 
+      <div
+        v-if="dependents && dependents.length > 0"
         class="next"
       >
         <p class="title">next modules</p>
@@ -160,17 +160,17 @@ export default {
   components: {
     UserData,
     Keywords,
-    MiniItem
+    MiniItem,
   },
   head: {
     title: {
       inner: 'module',
       separator: '|',
-      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。',
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
-    ]
+    ],
   },
   data() {
     return {
@@ -231,10 +231,10 @@ export default {
     });
   },
   methods: {
-    async checkout () {
+    async checkout() {
       const { token, args } = await this.$refs.checkoutRef.open();
     },
-    done ({token, args}) {
+    done({ token, args }) {
     },
     deleteItem() {
       if (window.confirm(`「${this.moduleItem.title}」を削除します。よろしいですか？`)) {
@@ -279,10 +279,10 @@ export default {
           });
       }
     },
-    done(){},
-    opened(){},
-    closed(){},
-    canceled(){}
+    done() {},
+    opened() {},
+    closed() {},
+    canceled() {},
   },
 };
 </script>
@@ -417,7 +417,7 @@ export default {
       padding 5px 10px
 @media(max-width: 768px)
   .tools
-    top auto 
+    top auto
     bottom 30px
   .thumbnail
     height 350px

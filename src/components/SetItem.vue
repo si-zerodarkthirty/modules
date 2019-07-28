@@ -1,5 +1,5 @@
 <template>
-  <li 
+  <li
     :id="'item'+num"
     class="set-item flex"
   >
@@ -56,7 +56,7 @@ export default {
     return {
       data: db.collection('items').doc(this.$props.id),
     };
-  }
+  },
 };
 </script>
 

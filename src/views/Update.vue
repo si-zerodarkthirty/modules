@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     v-if="currentUser && currentUser.uid === skill.user"
     class="editor"
   >
@@ -113,23 +113,19 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <prism-editor 
-        :code="skill.description" 
-        language="html"
+      <textarea
         v-model="skill.description"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(skill.description)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <prism-editor 
-        :code="skill.description" 
-        language="html"
+      <textarea
         v-model="skill.description"
         v-if="isEdit"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(skill.description)"
@@ -145,23 +141,19 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <prism-editor 
-        :code="skill.content" 
-        language="html"
+      <textarea
         v-model="skill.content"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(skill.content)"
       ></div>
     </div>
     <div class="md-editor sp">
-      <prism-editor 
-        :code="skill.content" 
-        language="html"
+      <textarea
         v-model="skill.content"
         v-if="isEdit"
-      ></prism-editor>
+      ></textarea>
       <div
         class="view"
         v-html="md.render(skill.content)"
@@ -182,21 +174,17 @@ import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
-import PrismEditor from 'vue-prism-editor'
 
 export default {
   head: {
     title: {
       inner: 'moduleを更新する',
       separator: '|',
-      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。',
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
     ],
-  },
-  components: {
-    PrismEditor
   },
   data() {
     return {
@@ -269,10 +257,10 @@ export default {
     save() {
       db.collection('items').doc(this.$route.params.id).set({
         description: this.skill.description,
-        content: this.skill.content
+        content: this.skill.content,
       }, { merge: true })
         .then(
-          this.$toasted.show('変更を保存しました！', { duration: 1000 })
+          this.$toasted.show('変更を保存しました！', { duration: 1000 }),
         );
     },
     update() {
@@ -285,7 +273,7 @@ export default {
           description: this.skill.description,
           content: this.skill.content,
           updatedAt: date,
-          keywords: this.keywords
+          keywords: this.keywords,
         }, { merge: true })
           .then(
             this.$toasted.show('moduleが更新されました！', { duration: 2000 }),

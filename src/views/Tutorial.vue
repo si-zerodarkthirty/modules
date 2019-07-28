@@ -50,7 +50,7 @@
         <p @click="deleteTutorial">削除する</p>
       </div>
       <h1>{{ tutorial.name }}</h1>
-      <div 
+      <div
         v-if="tutorial.thumbnail"
         class="thumbnail"
         :style="'background-image: url('+tutorial.thumbnail+');'"
@@ -60,17 +60,17 @@
         :date="tutorial.createdAt"
       />
     </div>
-    <nav 
+    <nav
       id="page-nav"
       class="page-nav"
     >
-      <button 
+      <button
         @click="activeIdx = 0"
         :class="{active: activeIdx == 0}"
       >
         Intro
       </button>
-      <button 
+      <button
         v-for="moduleItem in orderBy(tutorial.modules, 'num')"
         :key="moduleItem.id"
         @click="activeIdx = moduleItem.num, getModule(moduleItem.id)"
@@ -79,7 +79,7 @@
         module {{moduleItem.num}}
       </button>
     </nav>
-    <div 
+    <div
       v-if="activeIdx == 0"
       class="body-wrapper"
     >
@@ -95,7 +95,7 @@
         ></vue-disqus>
       </div>
     </div>
-    <ModuleBody 
+    <ModuleBody
       v-else
       :data="activeModule"
       :idx="activeIdx"
@@ -122,17 +122,17 @@ import Vue2Filters from 'vue2-filters';
 export default {
   components: {
     UserData,
-    ModuleBody
+    ModuleBody,
   },
   head: {
     title: {
       inner: 'tutorial',
       separator: '|',
-      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。',
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
-    ]
+    ],
   },
   data() {
     return {
@@ -144,7 +144,7 @@ export default {
       tutorial: {},
       activeIdx: 0,
       activeModule: {},
-      activeModuleId: "",
+      activeModuleId: '',
       md: new markdownIt({
         highlight(code, lang) {
           return hljs.highlightAuto(code, [lang]).value;
@@ -177,7 +177,7 @@ export default {
           } else {
             this.isLiked = false;
           }
-        })
+        });
     });
   },
   mounted() {
@@ -188,49 +188,49 @@ export default {
   },
   firestore() {
     return {
-      tutorial: db.collection("tutorials").doc(this.$route.params.id),
-      user: db.collection("users").doc(this.$route.params.uid)
+      tutorial: db.collection('tutorials').doc(this.$route.params.id),
+      user: db.collection('users').doc(this.$route.params.uid),
     };
   },
   methods: {
     handleScroll() {
-      const pageNav = document.getElementById('page-nav')
-      if(window.scrollY > 340) {
-        pageNav.style.position = 'fixed'
-        pageNav.style.top = '60px'
+      const pageNav = document.getElementById('page-nav');
+      if (window.scrollY > 340) {
+        pageNav.style.position = 'fixed';
+        pageNav.style.top = '60px';
       } else {
-        pageNav.style.position = 'absolute'
-        pageNav.style.top = 'auto'
+        pageNav.style.position = 'absolute';
+        pageNav.style.top = 'auto';
       }
     },
     getModule(id) {
-      db.collection("items").doc(id)
-      .get()
-      .then(item => {
-        this.activeModule = item.data()
-        this.activeModuleId = item.id
-        window.scrollTo(0,300)
-      })
+      db.collection('items').doc(id)
+        .get()
+        .then((item) => {
+          this.activeModule = item.data();
+          this.activeModuleId = item.id;
+          window.scrollTo(0, 300);
+        });
     },
     getNext() {
-      const nextModule = this.tutorial.modules.find(module => module.num == this.activeIdx + 1)
-      db.collection("items").doc(nextModule.id)
-      .get()
-      .then(item => {
-        this.activeModule = item.data()
-        this.activeModuleId = item.id
-        this.activeIdx += 1
-        window.scrollTo(0,300)
-      })
+      const nextModule = this.tutorial.modules.find(module => module.num == this.activeIdx + 1);
+      db.collection('items').doc(nextModule.id)
+        .get()
+        .then((item) => {
+          this.activeModule = item.data();
+          this.activeModuleId = item.id;
+          this.activeIdx += 1;
+          window.scrollTo(0, 300);
+        });
     },
     deleteTutorial() {
-      if(window.confirm('「'+this.tutorial.name+'」を削除してよろしいですか？')) {
-        db.collection("tutorials").doc(this.$route.params.id)
-        .delete()
-        .then(
-          this.$toasted.show('tutorialが削除されました。', { duration: 2000 }),
-          this.$router.push('/'),
-        )
+      if (window.confirm(`「${this.tutorial.name}」を削除してよろしいですか？`)) {
+        db.collection('tutorials').doc(this.$route.params.id)
+          .delete()
+          .then(
+            this.$toasted.show('tutorialが削除されました。', { duration: 2000 }),
+            this.$router.push('/'),
+          );
       }
     },
     toggleLike() {

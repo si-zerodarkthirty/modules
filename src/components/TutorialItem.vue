@@ -13,9 +13,9 @@
     <h2>
       <router-link :to="'/tutorial/'+data.user+'/'+data.id">
         {{ data.name }}
-      </router-link>  
+      </router-link>
       <span>{{data.modules.length}} modules</span>
-    </h2> 
+    </h2>
     <div class="modules">
       <SetItem
         v-for="moduleItem in orderBy(data.modules,'num')"

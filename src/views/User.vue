@@ -164,12 +164,12 @@ export default {
       return {
         inner: 'ユーザーページ',
         separator: '|',
-        complement: 'modules - あなた専用のチュートリアルで学ぼう。'
-      }
+        complement: 'modules - あなた専用のチュートリアルで学ぼう。',
+      };
     },
     meta: [
       { name: 'description', content: 'ユーザーページです。' },
-    ]
+    ],
   },
   data() {
     return {

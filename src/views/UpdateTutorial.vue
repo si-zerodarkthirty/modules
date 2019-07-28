@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     v-if="currentUser && currentUser.uid == tutorial.user"
     class="update-tutorial editor"
   >
@@ -71,8 +71,8 @@
       </button>
     </label>
     <div class="flex md-editor pc">
-      <prism-editor 
-        :code="tutorial.intro" 
+      <prism-editor
+        :code="tutorial.intro"
         language="html"
         v-model="tutorial.intro"
       ></prism-editor>
@@ -82,8 +82,8 @@
       ></div>
     </div>
     <div class="md-editor sp">
-      <prism-editor 
-        :code="tutorial.intro" 
+      <prism-editor
+        :code="tutorial.intro"
         language="html"
         v-model="tutorial.intro"
         v-if="isEdit"
@@ -98,8 +98,8 @@
 </template>
 
 <script>
-import { auth, db } from "@/main"
-import SetItem from "@/components/SetItem"
+import { auth, db } from '@/main';
+import SetItem from '@/components/SetItem';
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import sanitizer from 'markdown-it-sanitizer';
@@ -108,19 +108,19 @@ import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
 import draggable from 'vuedraggable';
 import Vue2Filters from 'vue2-filters';
-import PrismEditor from 'vue-prism-editor'
+import PrismEditor from 'vue-prism-editor';
 
 export default {
   components: {
     SetItem,
     draggable,
-    PrismEditor
+    PrismEditor,
   },
   head: {
     title: {
       inner: 'tutorialを更新する',
       separator: '|',
-      complement: 'modules - あなた専用のチュートリアルで学ぼう。'
+      complement: 'modules - あなた専用のチュートリアルで学ぼう。',
     },
     meta: [
       { name: 'description', content: 'modulesは全く新しいプログラミング学習サイトです。modulesでは、１機能・１トピック単位でチュートリアルを売買できます。' },
@@ -130,7 +130,7 @@ export default {
     return {
       currentUser: {},
       tutorial: {},
-      itemId: "",
+      itemId: '',
       isEdit: true,
       md: new markdownIt({
         highlight(code, lang) {
@@ -150,7 +150,7 @@ export default {
         })
         .use(markdownItTocDoneRight)
         .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
-    }
+    };
   },
   created() {
     auth.onAuthStateChanged((user) => {
@@ -159,55 +159,55 @@ export default {
   },
   firestore() {
     return {
-      tutorial: db.collection("tutorials").doc(this.$route.params.id)
-    }
+      tutorial: db.collection('tutorials').doc(this.$route.params.id),
+    };
   },
   methods: {
     publish() {
-      if(this.tutorial.name && this.tutorial.modules.length > 1) {
+      if (this.tutorial.name && this.tutorial.modules.length > 1) {
         const date = this.$date(new Date(), 'DD.MMMM.YYYY');
-        db.collection("tutorials").doc(this.$route.params.id)
-        .set({
-          name: this.tutorial.name,
-          modules: this.tutorial.modules,
-          updatedAt: date,
-          thumbnail: this.tutorial.thumbnail,
-          intro: this.tutorial.intro
-        }, {merge: true})
-        .then(
-          this.$router.push('/tutorial/'+this.tutorial.user+'/'+this.tutorial.id),
-          this.$toasted.show('tutorialが更新されました。', { duration: 2000 })
-        )
+        db.collection('tutorials').doc(this.$route.params.id)
+          .set({
+            name: this.tutorial.name,
+            modules: this.tutorial.modules,
+            updatedAt: date,
+            thumbnail: this.tutorial.thumbnail,
+            intro: this.tutorial.intro,
+          }, { merge: true })
+          .then(
+            this.$router.push(`/tutorial/${this.tutorial.user}/${this.tutorial.id}`),
+            this.$toasted.show('tutorialが更新されました。', { duration: 2000 }),
+          );
       } else {
-        this.$toasted.show('名前と2つ以上のmoduleが登録されているかご確認ください。', { duration: 2000 })
+        this.$toasted.show('名前と2つ以上のmoduleが登録されているかご確認ください。', { duration: 2000 });
       }
     },
     setItem() {
-      const itemsLength = document.getElementsByClassName( "set-item" ).length
-      db.collection("items").doc(this.itemId)
-      .get()
-      .then(item => {
-        if(item.exists) {
-          this.tutorial.modules.push({
-            id: this.itemId,
-            num: itemsLength + 1
-          })
-        } else {
-          this.$toasted.show('IDが間違っています。', { duration: 2000 })
-        }
-      })
+      const itemsLength = document.getElementsByClassName('set-item').length;
+      db.collection('items').doc(this.itemId)
+        .get()
+        .then((item) => {
+          if (item.exists) {
+            this.tutorial.modules.push({
+              id: this.itemId,
+              num: itemsLength + 1,
+            });
+          } else {
+            this.$toasted.show('IDが間違っています。', { duration: 2000 });
+          }
+        });
     },
     onEnd() {
-      const rawItems = document.getElementsByClassName("set-item");
-      const items = [].slice.call(rawItems)
-      this.tutorial.modules.forEach(moduleItem => {
-        const moduleElement = document.getElementById("item"+moduleItem.num);
-        moduleItem.num = items.indexOf(moduleElement)+1;
+      const rawItems = document.getElementsByClassName('set-item');
+      const items = [].slice.call(rawItems);
+      this.tutorial.modules.forEach((moduleItem) => {
+        const moduleElement = document.getElementById(`item${moduleItem.num}`);
+        moduleItem.num = items.indexOf(moduleElement) + 1;
       });
-    }
+    },
   },
   mixins: [Vue2Filters.mixin],
-}
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -216,5 +216,3 @@ export default {
   &:first-child
       border none
 </style>
-
-

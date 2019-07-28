@@ -15,26 +15,26 @@
 </template>
 
 <script>
-import { db } from "@/main"
-import Item from "@/components/Item"
+import { db } from '@/main';
+import Item from '@/components/Item';
 import Vue2Filters from 'vue2-filters';
 
 export default {
   components: {
-    Item
+    Item,
   },
   data() {
     return {
-      items: []
-    }
+      items: [],
+    };
   },
   firestore() {
     return {
-      items: db.collection("items").where("keywords","array-contains",this.$route.params.tag)
-    }
+      items: db.collection('items').where('keywords', 'array-contains', this.$route.params.tag),
+    };
   },
   mixins: [Vue2Filters.mixin],
-}
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -44,9 +44,7 @@ export default {
     margin 20px 0
     h1
       margin 0
-    p 
+    p
       margin 0
       font-size .9rem
 </style>
-
-

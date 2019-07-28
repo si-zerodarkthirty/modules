@@ -3,8 +3,8 @@
     <div class="flex">
       <router-link to="/">
         <h1 class="title flex">
-          <img 
-            src="../assets/logo.svg" 
+          <img
+            src="../assets/logo.svg"
             alt="modules-logo"
             class="logo"
           >
@@ -13,8 +13,8 @@
       </router-link>
     </div>
     <nav class="flex">
-      <router-link 
-        v-if="currentUser" 
+      <router-link
+        v-if="currentUser"
         to="/create"
       >
         <button class="create-btn">
@@ -104,7 +104,7 @@ import draggable from 'vuedraggable';
 export default {
   components: {
     SetItem,
-    draggable
+    draggable,
   },
   data() {
     return {
@@ -137,23 +137,23 @@ export default {
       }, { merge: true });
     },
     setItem() {
-      db.collection("items").doc(this.inputId)
-      .get()
-      .then(item => {
-        if(item.exists) {
-          this.setItems.push({
-            id: this.inputId,
-            num: this.setItems.length + 1
-          })
-        } else {
-          this.$toasted.show('IDが間違っています。', { duration: 2000 })
-        }
-        this.inputId = ""
-      })
+      db.collection('items').doc(this.inputId)
+        .get()
+        .then((item) => {
+          if (item.exists) {
+            this.setItems.push({
+              id: this.inputId,
+              num: this.setItems.length + 1,
+            });
+          } else {
+            this.$toasted.show('IDが間違っています。', { duration: 2000 });
+          }
+          this.inputId = '';
+        });
     },
     cancelItems() {
-      if(window.confirm('moduleのリストを空にしてよろしいですか？')) {
-        this.setItems = []
+      if (window.confirm('moduleのリストを空にしてよろしいですか？')) {
+        this.setItems = [];
       }
     },
     createTutorial() {
@@ -165,26 +165,26 @@ export default {
           name: this.tutorialName,
           createdAt: date,
           likes: [],
-          intro: "",
-          thumbnail: ""
+          intro: '',
+          thumbnail: '',
         }).then((item) => {
           this.$toasted.show('tutorialが公開されました！', { duration: 2000 }),
           this.$router.push(`/tutorial/${this.currentUser.uid}/${item.id}`),
-          this.tutorialName = "",
-          this.setItems = []
+          this.tutorialName = '',
+          this.setItems = [];
         });
       } else {
         this.$toasted.show('2つ以上のmoduleを登録してください。', { duration: 2000 });
       }
     },
     onEnd() {
-      const rawItems = document.getElementsByClassName("set-item");
-      const items = [].slice.call(rawItems)
-      this.setItems.forEach(moduleItem => {
-        const moduleElement = document.getElementById("item"+moduleItem.num);
-        moduleItem.num = items.indexOf(moduleElement)+1;
+      const rawItems = document.getElementsByClassName('set-item');
+      const items = [].slice.call(rawItems);
+      this.setItems.forEach((moduleItem) => {
+        const moduleElement = document.getElementById(`item${moduleItem.num}`);
+        moduleItem.num = items.indexOf(moduleElement) + 1;
       });
-    }
+    },
   },
 };
 </script>

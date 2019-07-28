@@ -3,21 +3,21 @@
     <div class="titles">
       <p class="idx">module {{idx}}</p>
       <h2>{{data.title}}</h2>
-      <UserData 
+      <UserData
         :uid="data.user"
         :date="data.updatedAt"
       />
     </div>
     <div class="body">
-      <div 
+      <div
         class="description view"
         v-html="md.render(data.description)"
       ></div>
-      <div 
+      <div
         class="content view"
         v-html="md.render(data.content)"
       ></div>
-      <div 
+      <div
         v-if="idx < length"
         class="next"
         @click="next"
@@ -29,18 +29,19 @@
 </template>
 
 <script>
-import { db } from "@/main"
-import UserData from "@/components/UserData"
+import { db } from '@/main';
+import UserData from '@/components/UserData';
 import markdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import sanitizer from 'markdown-it-sanitizer';
 import markdownItAnchor from 'markdown-it-anchor';
 import markdownItTocDoneRight from 'markdown-it-toc-done-right';
 import katex from '@iktakahiro/markdown-it-katex';
+
 export default {
-  props: ['data','idx','length'],
+  props: ['data', 'idx', 'length'],
   components: {
-    UserData
+    UserData,
   },
   data() {
     return {
@@ -62,14 +63,14 @@ export default {
         })
         .use(markdownItTocDoneRight)
         .use(katex, { throwOnError: false, errorColor: ' #cc0000' }),
-    }
+    };
   },
   methods: {
     next() {
-      this.$emit('next')
-    }
-  }
-}
+      this.$emit('next');
+    },
+  },
+};
 </script>
 
 <style lang="stylus" scoped>
@@ -101,4 +102,3 @@ export default {
   font-weight bold
   cursor pointer
 </style>
-
