@@ -85,25 +85,24 @@
         />
       </li>
     </ul>
-    <label for="dependency">
+    <label for="previous">
       previous module
       <div class="info">別のmoduleの内容を前提にしたい場合は、そのmoduleのIDを登録してください。</div>
     </label>
     <input
       type="text"
-      name="dependency"
-      class="dependency"
+      name="previous"
+      class="keywords"
       v-model="inputId"
       placeholder="module ID"
-      @keypress.enter="getItem"
+      @keypress.enter="addPrevious"
     >
-    <div v-if="inputId" class="result flex">
-      <div
-        v-if="gotItemId"
-        class="result-thumbnail"
-        :style="'background-image: url('+gotItem.thumbnail+');'"
-      ></div>
-      <p class="result-title">{{ gotItem.title }}</p>
+    <div v-if="previouses.length > 0" class="flex">
+      <p 
+        class="result"
+        v-for="previous in previouses"
+        :key="previous"
+      >{{ previous }}</p>
     </div>
     <label for="description">
       module description
@@ -191,9 +190,8 @@ export default {
     return {
       isEdit: true,
       currentUser: {},
-      inputId: '',
-      gotItem: {},
-      gotItemId: '',
+      previouses: [],
+      previous: '',
       price: 0,
       title: '',
       thumbnail: '',
@@ -227,12 +225,11 @@ export default {
     });
   },
   methods: {
-    getItem() {
-      db.collection('items').doc(this.inputId)
-        .onSnapshot((item) => {
-          this.gotItem = item.data();
-          this.gotItemId = item.id;
-        });
+    addPrevious() {
+      this.previouses.push(this.previous)
+        .then(
+          this.previous = '',
+        );
     },
     addKeyword() {
       this.keywords.push(this.keyword)
@@ -242,6 +239,9 @@ export default {
     },
     deleteKeyword(i) {
       this.keywords.splice(i, 1);
+    },
+    deletePrevious(i) {
+      this.previouses.splice(i, 1);
     },
     publish() {
       if (this.title && this.description && this.keywords && this.content) {
@@ -254,6 +254,7 @@ export default {
           updatedAt: date,
           description: this.description,
           keywords: this.keywords,
+          previouses: this.previouses,
           content: this.content,
           user: this.currentUser.uid,
           likes: [],
@@ -342,20 +343,13 @@ export default {
     box-shadow 0 0 10px rgba(0,0,0,.1)
     border-radius 5px
     width fit-content
+    padding 10px
+    margin 0 5px 5px 0
     font-size .9rem
     overflow hidden
-    .result-title
-      margin 10px
-    .result-thumbnail
-      width 50px
-      height 50px
-      min-width 50px
-      min-height 50px
-      border-radius 50%
-      border 1px solid #eee
-      margin 10px
-      background-size cover
-      background-position center
+    span
+      margin-left 10px
+      cursor pointer
   .publish-btn
     position fixed
     bottom 20px

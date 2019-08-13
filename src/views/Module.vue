@@ -103,12 +103,14 @@
     <div class="body">
       <div
         class="dependency"
-        v-if="moduleItem.dependency"
+        v-if="moduleItem.previouses.length > 0"
       >
-        <p class="title">previous module</p>
+        <p class="title">previous modules</p>
         <div class="mini-list">
           <MiniItem
-            :id="moduleItem.dependency"
+            v-for="previous in moduleItem.previouses"
+            :key="previous"
+            :id="previous"
           />
         </div>
       </div>

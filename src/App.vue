@@ -133,22 +133,6 @@ input:focus, textarea:focus
   margin 10px 0 0 -2%
   border-top 3px solid #eee
   border-bottom 3px solid #eee
-  .prism-editor-wrapper
-    width 50%
-    min-width 50%
-    .prism-editor__code
-      margin 0
-      height 365px
-      font-size 1.1rem
-      background rgb(40,44,52)
-      color white
-      font-weight bold
-      white-space pre-wrap
-      text-shadow none !important
-      border none
-      border-radius 0
-      &:focus
-        outline none
   textarea
     resize none
     background #eee
@@ -179,16 +163,16 @@ input:focus, textarea:focus
         border-bottom 2px solid #2c3e50
   code
     font-weight bold
+    font-family 'Ubuntu Mono', monospace
   pre
     background rgb(40,44,52)
     padding 10px 15px
     border-radius 5px
     font-weight bold
-    font-size .9rem
+    font-size 1.2rem
     line-height 1.2rem
     overflow scroll
     max-height 400px
-    font-family "Lucida Console", Monaco, monospace
     code
       text-shadow none
       color white

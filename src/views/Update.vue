@@ -85,24 +85,32 @@
         />
       </li>
     </ul>
-    <label for="dependency">
+    <label for="previous">
       previous module
       <div class="info">別のmoduleの内容を前提にしたい場合は、そのmoduleのIDを登録してください。</div>
     </label>
     <input
       type="text"
-      name="dependency"
+      name="previous"
       class="dependency"
-      v-model="skill.dependency"
+      v-model="previous"
       placeholder="Module ID"
-      @keypress.enter="updateDependency"
+      @keypress.enter="addPrevious"
     >
-    <div v-if="skill.dependency" class="result flex">
-      <div
-        class="result-thumbnail"
-        :style="'background-image: url('+gotItem.thumbnail+');'"
-      ></div>
-      <p class="result-title">{{ gotItem.title }}</p>
+    <div 
+      v-if="previouses.length > 0" 
+      class="flex"
+    >
+      <p 
+        v-for="(previous,idx) in previouses"
+        :key="idx"
+        class="result"
+      >
+        {{ previous }}
+        <span @click="deletePrevious(idx)">
+          X
+        </span>
+      </p>
     </div>
     <label for="description">
       module description
@@ -191,8 +199,8 @@ export default {
       currentUser: {},
       isEdit: true,
       skill: {},
-      gotItem: {},
-      gotItemId: '',
+      previous: '',
+      previouses: [],
       keyword: '',
       keywords: [],
       md: new markdownIt({
@@ -227,23 +235,16 @@ export default {
     db.collection('items').doc(this.$route.params.id)
       .get()
       .then((item) => {
-        this.keywords = item.data().keywords;
-        if (item.data().dependency) {
-          db.collection('items').doc(item.data().dependency)
-            .get()
-            .then((item) => {
-              this.gotItem = item.data();
-            });
-        }
+        this.keywords = item.data().keywords
+        this.previouses = item.data().previouses
       });
   },
   methods: {
-    getItem() {
-      db.collection('items').doc(this.skill.dependency)
-        .onSnapshot((item) => {
-          this.gotItem = item.data();
-          this.skill.dependency = item.id;
-        });
+    addPrevious() {
+      this.previouses.push(this.previous)
+        .then(
+          this.previous = '',
+        );
     },
     addKeyword() {
       this.keywords.push(this.keyword)
@@ -253,6 +254,9 @@ export default {
     },
     deleteKeyword(i) {
       this.keywords.splice(i, 1);
+    },
+    deletePrevious(i) {
+      this.previouses.splice(i, 1);
     },
     save() {
       db.collection('items').doc(this.$route.params.id).set({
@@ -274,6 +278,7 @@ export default {
           content: this.skill.content,
           updatedAt: date,
           keywords: this.keywords,
+          previouses: this.previouses
         }, { merge: true })
           .then(
             this.$toasted.show('moduleが更新されました！', { duration: 2000 })
@@ -281,15 +286,7 @@ export default {
       } else {
         this.$toasted.show('必要な情報を記入してください。', { duration: 2000 });
       }
-    },
-    updateDependency() {
-      db.collection('items').doc(this.$route.params.id).set({
-        dependency: this.skill.dependency,
-      }, { merge: true })
-        .then(
-          this.$toasted.show('moduleが更新されました！', { duration: 2000 }),
-        );
-    },
+    }
   },
 };
 </script>
