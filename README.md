@@ -1,5 +1,7 @@
 # Modules
 
+Demo Page URL: https://modulestore.tech/
+
 ## Project setup
 ```
 npm install
